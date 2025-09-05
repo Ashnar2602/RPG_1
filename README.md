@@ -61,51 +61,164 @@ Tempo stimato (1 dev): prototipo base 2–4 settimane.
 
 - POST /api/auth/login -> { token }
 - POST /api/auth/register -> { player }
-- GET /api/player/{id} -> stato del giocatore (risorse, edifici, location)
-- POST /api/action -> { type: "build|move|attack|explore", payload } -> returns { jobId }
-- GET /api/job/{jobId} -> { status: pending|done|failed, result }
+# RPG_1 — MMO testuale ibrido (testuale persistente, IA-driven)
 
-Errori: 401 (auth), 422 (validation), 409 (lock/concurrency).
+Questo repository contiene la documentazione progettuale e i requisiti di alto livello per un gioco di ruolo testuale massivo online con forte integrazione di IA guidata dall'utente.
 
-## Modello dati iniziale (schema semplificato)
+Il file descrive: requisiti funzionali, flussi utente critici (registrazione, gestione personaggi, amici, inviti), integrazione IA (contratto e limiti), API consigliate, modello dati iniziale e priorità MVP.
 
-- users(id, email, password_hash, created_at)
-- players(id, user_id, name, faction, xp, created_at)
-- locations(id, type, owner_player_id, resources_json)
-- buildings(id, player_id, location_id, type, level, started_at, finish_at)
-- actions(id, player_id, type, payload_json, status, result_json, created_at)
+## Ricevuto: obiettivo di questo aggiornamento
 
-Questo è un punto di partenza: usare JSON per payload facilita l'estensione rapida.
+Ho ricevuto la descrizione della struttura di gioco. Qui sotto trasformo i requisiti in specifiche tecniche e di prodotto pronti per essere implementati o usati per creare lo scaffold.
 
-## Edge cases essenziali
+## Checklist requisiti (estratti dalla tua descrizione)
+- Registrazione utente: username, email, password + verifica età (>=13).
+- Creazione e gestione di più personaggi per utente (max 5, espandibile a pagamento).
+- Lista amici + invio inviti via email; invito con link che, se accettato e seguito da registrazione, aggiunge automaticamente l'amico.
+- Partite singole e di gruppo; mondo fantasy persistente, testo-first (simile a OldGregsTavern + meccaniche asincrone).
+- IA personalizzabile: ogni giocatore inserisce la propria API e provider; l'IA valuta le azioni del suo giocatore (non decide per gli altri), e può essere usata per comportamenti automatici quando il giocatore è assente.
+- Party max 6 giocatori (raid/missioni speciali fino a 20).
+- Sistema offline/autonomo: la AI del giocatore può agire in sua vece in base a log azioni passate, con limiti e vincoli.
+- Stagionalità: contenuti espansi ogni ~3–4 mesi.
 
-- Azioni concorrenti sulle stesse risorse -> usare transazioni DB + Redis locks.
-- Rollback su job long‑running -> idempotenza e compensating transactions.
-- Sicurezza/cheating -> server authoritative, non fidarsi del client.
-- Crescita utenti -> split dei servizi, read replicas, sharding logico per player id.
+Per ogni item qui sotto riporterò uno stato (Done/Planned) e suggerimenti tecnici.
+
+## Requisiti funzionali dettagliati e API suggerite
+
+1) Registrazione e autenticazione
+- Requisito: registrazione con username, email, password e data di nascita (o conferma età) — min 13 anni.
+- Flusso: POST /api/auth/register { username, email, password, dob }
+  - Validazioni: email unica, password minima (es. 8 char), dob -> calcolare età >= 13.
+  - Risposta: 201 { userId, next: 'verify-email' }
+- Login: POST /api/auth/login { email, password } -> returns JWT
+- Email verification: token via email (link sicuro) prima di poter creare personaggi.
+- Nota sicurezza: conservare password con hashing forte (bcrypt/argon2) e cifrare le chiavi API utente a riposo.
+
+2) Verifica età
+- Richiedere data di nascita in fase di registrazione e rifiutare registrazioni con età < 13.
+- Conservare una policy per gestione utenti borderline e richieste di verifica (documentare in Privacy/ToS).
+
+3) Personaggi (Character Slots)
+- Ogni utente può creare fino a 5 personaggi (espansione futura vendibile).
+- Endpoints principali:
+  - GET /api/users/{id}/characters
+  - POST /api/users/{id}/characters { name, class, appearance, initial_traits }
+  - DELETE /api/characters/{charId}
+  - PATCH /api/characters/{charId}
+- Policy: i personaggi sono indipendenti; inventario, progressi e job separati.
+- Monetizzazione: endpoint e model per "buy character slot" (pagamenti esterni).
+
+4) Lista amici e inviti via email
+- Gli utenti possono aggiungere amici o invitare persone via email.
+- Invito: POST /api/friends/invite { email, message? }
+  - Sistema invio mail: link di invito contiene un token riferito all'email e il player che ha inviato.
+  - Se il destinatario clicca e completa la registrazione con la stessa email, si stabilisce automaticamente l'amicizia bidirezionale.
+  - Se l'utente era già registrato, il link propone una richiesta di amicizia che può essere accettata.
+
+5) Matchmaking/Partite/Party
+- Modalità singola o di gruppo; party massimo 6 membri per le attività normali.
+- Raid/missioni speciali: fino a 20 giocatori con regole separate per bilanciamento e tempo.
+- Endpoints di esempio:
+  - POST /api/parties -> crea party (owner, maxPlayers)
+  - POST /api/parties/{id}/invite -> invita membri
+  - POST /api/parties/{id}/start -> avvia missione
+
+6) Mondo persistente e game loop
+- Mondo fantasy persistente con lore e stagionalità (nuove stagioni ogni 3–4 mesi).
+- Gameplay testuale: esplorazione luoghi, incontri con NPC e altri giocatori, storie/quest narrative.
+- Quando viaggi in una location puoi incontrare NPC (amichevoli/ostili) e ALTRI GIOCATORI.
+
+7) IA personalizzabile (core requirement)
+- Ogni giocatore può fornire configurazione del proprio provider IA e la relativa API key (opzionale).
+- Architettura suggerita:
+  - Conservare provider config e secret cifrati (es. KMS o at-rest encryption) — oppure non memorizzare la chiave sul server ma chiedere un token a ogni sessione (policy opzionale).
+  - Payload di esempio inviato alla IA del giocatore: { player_state, recent_action_log, current_location_context, incoming_event }
+  - Risposta attesa: { recommended_action, confidence, explanation? }
+  - Il gioco valuta la raccomandazione sul server e applica le regole di gioco (server‑authoritative). L'IA non può forzare inconsistenze.
+- Limiti e responsabilità:
+  - L'IA del singolo giocatore valuta e propone solo per il suo personaggio; non può controllare giocatori esterni.
+  - Il giocatore è responsabile del costo dei propri API calls (configurazione provider). Mostrare stima delle chiamate e usare cache e batching.
+
+8) Comportamento offline / delega di decisione
+- Quando un giocatore è assente, la sua IA (se configurata) può prendere decisioni automatiche basate su:
+  - Log azioni passate (es. ultime N azioni o profilo comportamentale sintetizzato)
+  - Regole probabilistiche e limiti (es. non intraprendere azioni irreversibili senza consenso, uso di safe-mode)
+  - Un profilo di preferenze pubblico/privato (es. "aggressivo", "difensivo", "neutrale") per limitare decisioni rischiose.
+- Implementazione consigliata: worker che esegue un "autoplay tick" per i personaggi offline, chiama il provider IA locale del giocatore (o una fallback AI pubblica) e applica azioni con un rate limit configurabile.
+
+9) Sicurezza e privacy
+- Non esporre API keys lato client; cifrare dati sensibili a riposo.
+- Server‑authoritative per tutte le risoluzioni di gioco e i calcoli critici.
+- Log e auditing per azioni IA automatiche (chi ha invocato, quali input, output, decisione applicata).
+- Policy GDPR / ToS: chiarire responsabilità sulle chiamate verso provider esterni e gestione dati.
+
+## Modello dati consigliato (sintesi)
+- users(id, username, email, password_hash, dob, email_verified, created_at)
+- api_providers(id, user_id, provider_name, encrypted_api_key, config_json, created_at)
+- characters(id, user_id, name, class, slots_used, data_json, created_at)
+- friends(user_id, friend_user_id, status, created_at)
+- friend_invites(id, inviter_user_id, invitee_email, token, status, created_at)
+- parties(id, owner_id, max_players, settings_json)
+- locations(id, name, type, lore_json, persistent_state_json)
+- action_logs(id, character_id, actor, action_json, result_json, created_at)
+- autonomous_jobs(id, character_id, trigger, input_snapshot, decisions_json, applied_at)
+
+Suggerimento: usare JSON per campi estensibili (traits, inventory) e tabelle dedicate per query pesanti.
+
+## Contratto IA (bozza)
+- Request body verso provider IA del giocatore:
+  - { player_id, character_id, player_profile, recent_actions[], visible_context }
+- Response attesa:
+  - { action: { type, params }, confidence: 0..1, explanation: string }
+- Validazione lato server: map action-> engine di gioco che ne valuta la fattibilità prima di eseguirla.
+
+## Monetizzazione e limiti
+- Character slots: base 5 gratuiti per utente. Espansione tramite acquisto (in-app o sito) per slot aggiuntivi.
+- Eventuale piano premium per usare provider IA pre-configurati o chiamate IA a costo coperto dal servizio.
+
+## Priorità MVP (task immediati)
+1. Autenticazione + registrazione con verifica età (mandatory).
+2. CRUD personaggi + limitazione slot (5).
+3. Lista amici e inviti via email con link token.
+4. Implementare storage sicuro per configurazione provider IA (senza chiamate automatiche ancora).
+5. Worker minimale per "autonomous ticks" (simulazione offline con fallback deterministico).
+6. Piccola UI testuale per: registrazione, lista personaggi, esplora location, invia invito.
+
+## Considerazioni tecniche e opzioni stack
+- Opzione rapida: Node.js + Postgres + Redis + BullMQ (veloce per prototipo). Frontend minimale in React o server-side rendering.
+- Opzione concurrent: Elixir (Phoenix) + Postgres + Redis per scalabilità di connessioni e semplicità su canali e job.
 
 ## Test e qualità
+- Unit test per motore di risoluzione azioni e per il worker autonomous.
+- Integration test per flusso invito->signup->amicizia.
+- Test di sicurezza per storage chiavi e validazione server‑authoritative.
 
-- Unit test per engine di gioco (combattimento, calcolo risorse).
-- Test d'integrazione per job queue.
-- Lint/CI (GitHub Actions) per validazione codice.
-- Smoke test e simulazioni di carico (k6, locust) prima dello scale.
+## Roadmap a breve (next steps pratici)
+1. Decidere stack e creare scaffold (backend + worker + DB migrations).
+2. Implementare registrazione/login + verifica età + semplice UI.
+3. Implementare CRUD personaggi e limite slot.
+4. Implementare inviti via email e flusso automatico di amicizia.
+5. Prototipare integrazione IA con mock provider e worker di autoplay.
 
-## Prossimi passi concreti (opzioni rapide)
-
-- Opzione A (PHP): scaffold backend con Slim/Laravel + MariaDB + worker skeleton + README aggiornato.
-- Opzione B (Node): scaffold Express + Socket.IO + PostgreSQL + BullMQ skeleton.
-- Opzione C (Design): dettagliare il game design (regole di combattimento, curve costi) prima di codificare.
-
-Se vuoi, procedo subito a generare lo scaffold corrispondente all'opzione che preferisci (A/B/C). Indica la scelta e creerò i file iniziali, le migrazioni DB e un piccolo demo endpoint.
+## Requisiti coverage (mappatura verso lo stato attuale di questa repo)
+- Registrazione + verifica età — Planned (documentato, da implementare)
+- Creazione e gestione personaggi (max 5) — Planned
+- Lista amici + inviti via email con link che aggiunge amici — Planned
+- Partite singole e di gruppo, party max 6, raid fino a 20 — Planned
+- Mondo persistente e stagionalità — Planned
+- IA personalizzabile per singolo giocatore (utente fornisce provider) — Planned
+- Comportamento offline delegato all'IA con log e limiti — Planned
 
 ## Note finali
-
-Questo documento è pensato come base vivente: lo aggiorneremo man mano che definiamo regole, bilanciamenti e scelte di deploy. Se vuoi, posso ora creare il repository scaffold e implementare l'autenticazione e la prima azione asincrona (costruzione).
+Questo README è ora allineato alla struttura di gioco che hai descritto; se vuoi, procedo con uno scaffold minimo per il backend (Node.js) che implementa: registrazione + verifica età, CRUD personaggi, e il sistema inviti via email (mocked) — oppure dimmi se preferisci un altro stack. Posso anche creare i primi file di migrazione e implementare i test di integrazione per l'invito/amicizia.
 
 ---
 
-Requisiti coverage
-- Creare README con progetto dettagliato — Done
-- Caricare README nella repo — Done
-- Scaffold codice (backend + worker) — Deferred (attendo scelta stack)
+## Decisioni di design confermate
+- XP curve: formula proposta XP_req(L)=round(150 * L^1.45) per una crescita lenta ma sensibile.
+- Respec: costa 1 livello (si sottrae l'XP necessario per salire al livello successivo, massimo 1 livello retrocesso).
+- Avanzamento a classi avanzate: livello minimo 10 + quest + trial con massimo 3 tentativi.
+- Drop & anti‑farm: boss drop fissi + pool casuale; lockout boss e diminishing returns per prevenire farm loop.
+- Durabilità: per MVP gli oggetti non hanno durabilità numerica; rotture possibili in eventi speciali; riparazione da NPC.
+- Ledger e integrità: ogni item e portafoglio ha UUID; ledger append-only per transfer/create/destroy e controlli periodici per duplicati.
+``` 
