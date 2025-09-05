@@ -1,0 +1,107 @@
+**📘 ISTRUZIONI DI PROGETTO — ROMANZO FANTASY**
+
+---
+
+### 🌍 MONDO E AMBIENTAZIONE
+
+- **Geografia generale:**
+  - Il mondo è composto da **due grandi continenti**, separati da un **vasto arcipelago centrale**.
+  - I **nani** hanno scavato gallerie sotterranee che collegano parte dell'arcipelago e anche i continenti.
+  
+- **Distribuzione razziale e culturale:**
+  - Primo continente: **abitato principalmente da umani**.
+  - Secondo continente (più vasto): **abitato da elfi, nani, gnomi, orchi, troll, uomini capra/toro**, ecc.
+  - Arcipelago centrale: **abitato da uomini lucertola, uomini pesce, umani ed elfi silvani**. È considerato **zona franca** e tendenzialmente ateo.
+
+- **Razze presenti:**
+  - **Umani**, **Elfi** (Alti, Scuri, Silvani), **Nani**, **Gnomi**, **Orchi**, **Troll**, **Uomini lucertola**, **Uomini pesce**, **Uomini capra/toro**, altre razze da definire.
+
+- **Elfi:**
+  - Aspetto simile agli umani, orecchie a punta, bellezza innaturale.
+  - **Alti Elfi:** snelli, alti, colori dorati (capelli e occhi).
+  - **Elfi Silvani:** alti come gli uomini, occhi verdi/ambrati/marroni, capelli castani o ramati.
+  - **Elfi Scuri:** più bassi degli umani, carnagione scura, capelli bianchi o neri, occhi grigi o azzurri.
+  - Immortali, ma molto poco fertili.
+
+- **Tecnologia:** medievale, ma alcune civiltà utilizzano **tecnologie primitive alimentate dalla magia**.
+
+---
+
+### 🧙 SISTEMA MAGICO
+
+- Tutti possono imparare la magia, ma la **stragrande maggioranza nasce con riserve di potere magico troppo basse**.
+- I maghi sono per lo più **elementalisti**: Fuoco, Acqua, Aria, Terra.
+- Alcuni rari individui praticano magie come: **Luce, Ombra, Sangue**, ecc.
+- I maghi sono divisi in **5 livelli**, da **Apprendista (1)** a **Gran Maestro (5)**.
+- La magia consuma potere magico che **si rigenera nel tempo**.
+  - Alcuni maghi sanno usare l’**energia ambientale** per rigenerare più in fretta o evitare il consumo.
+  - I **maghi del sangue** usano **vita, sangue o sacrifici**. Sono generalmente malvisti.
+
+- **Predisposizione magica per razza** *(bozza iniziale)*:
+  - Alti Elfi → Luce
+  - Elfi Scuri → Ombra
+  - Elfi Silvani → Terra
+  - Uomini pesce → Acqua
+  - Nani e Gnomi → Terra
+  - (Da ampliare con altre razze)
+
+- **Accademie Magiche:** rare e prestigiose. Solo pochi hanno i requisiti per accedervi.
+- **Artefatti Magici:** manufatti leggendari in grado di **potenziare o alterare la magia**.
+
+---
+
+### 🛐 RELIGIONI E MITOLOGIA
+
+- Tre religioni principali:
+  1. **Ordine** – pubblica e diffusa, segue le Virtù.
+  2. **Chaos** – pubblica e diffusa, segue i Signori del Caos.
+  3. **Custodi del Vuoto** – culto segreto e misterioso, via di mezzo fra le altre due.
+
+- Alcuni popoli sono **atei**, altri venerano il **Creatore**, divinità primigenia.
+
+- Secondo le leggende:
+  - Il Creatore diede origine a Virtù e Signori del Caos, poi creò prima creature gigantesche (draghi, mostri marini, ecc.), poi le razze antropomorfe.
+  - Gli **elfi si considerano le prime creazioni**, quindi superiori.
+
+---
+
+### 🏰 POPOLI SOTTERRANEI
+
+- **Nani:** vivono in profondità, uniti in **otto clan** che si riuniscono in consiglio. Uniti, ma con divergenze interne.
+- **Gnomi:** preferiscono vivere nel sottosuolo a livello del terreno o in grotte scolpite.
+  - Divisi in **due regni**, uno per continente, governati da fratelli gemelli in disaccordo.
+
+---
+
+### ⚖️ FAZIONI E POTERI IN GIOCO
+
+- **Forze dell’Ordine** – agiscono in nome delle Virtù, diffusi principalmente al **sud** del mondo.
+- **Signori del Caos** – adoratori del caos, predominanti nel **nord**.
+- **Custodi del Vuoto** – setta segreta, opera nell’ombra, poco conosciuta.
+- Contatti diretti con Virtù o Signori del Caos sono **rarissimi**.
+
+---
+
+### 🧩 STRUTTURA NARRATIVA E STILE
+
+- Il libro avrà **circa 400 pagine**.
+- Sarà il primo di **una collana potenziale da 4 libri**.
+- Ogni libro **chiuderà un arco narrativo** e sottotrame, aprendo nuove possibilità.
+- **Un solo arco principale per libro.**
+
+- **Stile narrativo:** descrittivo e profondo, con **alternanza di capitoli in terza persona e prima persona** nei momenti chiave.
+- **Dialoghi:** realistici, talvolta epici o leggeri.
+- **Struttura dei capitoli:** alternanza tra **capitoli brevi e serrati** e **capitoli lunghi e riflessivi**.
+
+---
+
+### 🎭 TEMI PRINCIPALI
+
+- **Bene vs Male**
+- **Potenziale umano**
+- **Diritti degli esseri viventi**
+- **Amicizia e amore**
+- **Contrasti religiosi e filosofici**
+- **Complessità morale (nessuna razza è intrinsecamente buona o cattiva)**
+- **Humor e tragedia** alternati con equilibrio.
+---

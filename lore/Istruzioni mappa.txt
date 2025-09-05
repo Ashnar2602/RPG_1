@@ -1,0 +1,104 @@
+## 🗺️ **RIEPILOGO MAPPA DEL MONDO**
+
+### 📐 Formato e Orientamento
+- **Orientamento orizzontale**, stile mappa del mondo.
+- Proporzioni simili a un **foglio A3**, per visualizzazione ampia.
+- **Stile artistico medievale**, con disegni stilizzati e una **bussola decorata in stile nanico**.
+- **Cornice decorativa** simile a **pietra scolpita**, con motivi nanici.
+
+---
+
+## 🌍 CONTINENTI E ARCIPELAGO
+
+### 🔹 Continente Occidentale (sinistra) – *Grande*
+- **Forma**: Frastagliata, irregolare.
+- **Biomi**:
+  - Nord: Montagne innevate, alcune aree glaciali.
+  - Centro: Foreste temperate, grandi fiumi.
+  - Sud: Deserto caldo.
+- **Montagne**: Una **grande catena montuosa** percorre il continente da nord a sud.
+- **Fiumi/Laghi**: 1-2 grandi fiumi principali, affluenti minori e laghi sparsi.
+- **Isole aggiuntive**: Presenti sul lato opposto rispetto all'arcipelago, di medie dimensioni.
+- **Insediamenti principali**:
+  - Regno Elfico del Nord (Alti Elfi).
+  - Regno Nanico (con più città e uscite visibili in superficie).
+  - Regno Gnomesco occidentale.
+  - Foresta degli Orchi e terre tribali.
+  - 1–2 grandi città umane o miste.
+- **Regioni da indicare**: Es. “Deserto delle Ceneri”, “Foresta di Aelthar”, “Monti dell’Anima”.
+
+---
+
+### 🔹 Continente Orientale (destra) – *Piccolo*
+- **Forma**: Frastagliata e meno imponente.
+- **Biomi**:
+  - Nord: Catena montuosa.
+  - Centro-sud: Bioma mediterraneo (colline, campagne, coste verdi).
+- **Fiumi/Laghi**: 1–2 grandi fiumi; **lago centrale con penisola** dove sorge la **Accademia di Magia Umana**.
+- **Insediamenti principali**:
+  - Regno Umano centrale (capitale da evidenziare).
+  - Città degli Gnomi orientali.
+  - Regioni di uomini capra/toro.
+  - Altri centri elfi scuri e razze miste.
+- **Regioni da indicare**: Es. “Colline del Vento”, “Regno di Velendar”, “Monti di Kraym”.
+
+---
+
+### 🔹 Arcipelago Centrale
+- **Composizione**:
+  - 5 isole maggiori, **una delle quali molto grande** (≈ metà continente piccolo).
+  - Almeno **30 isolette minori**, molte collegate da **ponti su palafitte** (costruiti da uomini lucertola e altri).
+- **Isola principale**:
+  - **Enorme vulcano attivo** al centro.
+  - Bioma: **giungla/foresta pluviale tropicale**.
+- **Altre isole**: vari biomi, alcune paludose, altre rocciose, altre vulcaniche dormienti.
+- **Siti speciali**:
+  - **Rovine sommerse** e **templi perduti** (indicati vicino a isolette specifiche).
+  - Alcuni **accessi visibili alla rete sotterranea nanica** (non sull’isola del vulcano).
+- **Popolazione**:
+  - **Uomini lucertola** su palafitte e ponti.
+  - **Uomini pesce** con **città sottomarine** (non visibili ma indicate simbolicamente).
+  - **Elfi Silvani** e umani nomadi su alcune isole.
+
+---
+
+## 🛕 RELIGIONI E CULTI
+
+- **Templi dell’Ordine**:
+  - 1 in ciascun continente, visibili e monumentali.
+  - Eventuali rovine dell’Ordine anche nell’arcipelago.
+- **Luoghi del Caos**:
+  - **Segreti/nascosti**, segnati con icone misteriose in aree isolate o sotterranee.
+- **Custodi del Vuoto**:
+  - Non segnalati esplicitamente, ma collegati a rovine sommerse o caverne isolate.
+
+---
+
+## 🛤️ STRUTTURE SOTTERRANEE
+
+- **Rete nanica**:
+  - Tunnel tra i due continenti e verso **isole maggiori dell’arcipelago** (tranne l’isola vulcanica).
+  - Uscite visibili in superficie: **insediamenti nanici minori**, simboli specifici.
+- **Città degli Gnomi**:
+  - Una per continente, in prossimità di montagne o altipiani.
+  - Scavate orizzontalmente o su pareti rocciose.
+
+---
+
+## 🗝️ LEGENDA SIMBOLI (bozza)
+
+| Simbolo | Significato |
+|---------|-------------|
+| 🏰      | Capitale o città importante |
+| ⛏️      | Uscita nanica / città sotterranea |
+| 🧙      | Accademia magica |
+| 🌋      | Vulcano attivo |
+| ✝️      | Tempio dell’Ordine |
+| 🌀      | Luogo del Caos (nascosto) |
+| 🧜      | Città sottomarina (uomini pesce) |
+| 🛖      | Villaggio su palafitte (uomini lucertola) |
+| ⚓      | Porto o scalo marittimo |
+| 📜      | Rovine o templi antichi |
+| 🧭      | Bussola in stile nanico decorata |
+
+---

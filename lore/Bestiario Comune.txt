@@ -1,0 +1,75 @@
+**📘 Bestiario del Mondo — Creature Comuni**
+
+---
+
+## 🌊 Creature Marine
+
+### 1. **Skalun**
+- **Descrizione**: rettile marino corazzato lungo fino a 3 metri, con pinne dorsali e becco a uncino.
+- **Comportamento**: solitario, territoriale. Difende il proprio nido sommerso con furia.
+- **Utilizzo**: i suoi denti e scaglie vengono usati per armi da taglio.
+
+### 2. **Medusa Lumistilla**
+- **Descrizione**: medusa trasparente dalle dimensioni variabili (fino a 1m), emette bagliori ipnotici.
+- **Comportamento**: passiva, ma velenosa al contatto.
+- **Utilizzo**: le sue secrezioni sono usate in pozioni paralizzanti o illusioni visive.
+
+---
+
+## 🕊️ Creature Volatili
+
+### 3. **Aracelith**
+- **Descrizione**: rapace notturno dalle piume nere con riflessi blu. Occhi penetranti e urlo assordante.
+- **Comportamento**: solitario, onnivoro. Considerato di malaugurio.
+- **Curiosità**: usato come simbolo dalle sette del Vuoto.
+
+### 4. **Lumecrest**
+- **Descrizione**: uccello diurno con piume giallo brillante e cresta fluorescente.
+- **Comportamento**: sociale, canta in gruppo al sorgere del sole.
+- **Utilizzo**: piume usate in riti purificatori.
+
+### 5. **Varkoth Planante**
+- **Descrizione**: grosso uccello planatore con apertura alare di 6 metri. Simile a un condor corazzato.
+- **Comportamento**: predatore di piccole creature. Nidifica su scogliere isolate.
+- **Pericolo**: può attaccare cavalli e viandanti se affamato.
+
+---
+
+## 🐾 Creature Terrestri
+
+### 6. **Karuun**
+- **Descrizione**: felide dalle quattro zanne e pelliccia irsuta.
+- **Comportamento**: cacciatore notturno, altamente silenzioso.
+- **Particolarità**: alcuni sciamani affermano che il Karuun può "vedere l'anima".
+
+### 7. **Gorvalle**
+- **Descrizione**: roditore delle dimensioni di un cinghiale, con zanne curve e artigli retrattili.
+- **Comportamento**: scavano tane profonde, molto territoriali.
+- **Utilizzo**: i loro denti crescono senza sosta, usati come ornamenti.
+
+### 8. **Threm**
+- **Descrizione**: rettile da deserto con corazza ossea e lingua biforcuta velenosa.
+- **Comportamento**: passivo, si mimetizza sotto la sabbia.
+- **Relazione**: rispettato dagli Zar’kaan come animale guida.
+
+### 9. **Moggro**
+- **Descrizione**: erbivoro lento e massiccio, simile a un incrocio tra ippopotamo e tartaruga.
+- **Comportamento**: pacifico, ma letale se provocato. Vive in paludi e fiumi.
+- **Utilizzo**: gli uomini lucertola lo addestrano come bestia da soma.
+
+### 10. **Siltar**
+- **Descrizione**: piccola creatura simile a un pangolino con squame iridescenti.
+- **Comportamento**: timido, si nutre di insetti e vive nei boschi.
+- **Particolarità**: le squame cambiano colore a seconda dell'umore.
+
+### 11. **Drekil**
+- **Descrizione**: canide da guerra allevato in regioni fredde. Ha pelo bianco-grigio e mascelle potenti.
+- **Comportamento**: fedele, addestrabile, diffidente verso gli estranei.
+- **Utilizzo**: impiegato dai soldati del nord.
+
+### 12. **Neh'zar**
+- **Descrizione**: insetto notturno della lunghezza di un braccio, alato, dai colori scuri.
+- **Comportamento**: attratto dalla magia. Nidifica in rovine arcane.
+- **Pericolo**: le larve si nutrono di potere magico residuo e lo distorcono.
+
+---

@@ -1,0 +1,51 @@
+---
+
+### 🧑‍🤝‍🧑 Umani — *Figli dell’Equilibrio*
+
+- **Aspetto fisico**: estremamente variabile per pigmentazione, altezza, tratti somatici. Alcuni regni tendono ad avere tratti dominanti (pelle chiara nel nord, bruna nei deserti, occhi chiari nelle pianure, ecc.).
+- **Magia**: gli umani possono manifestare qualsiasi tipo di magia, ma raramente con potere elevato. Le loro riserve magiche sono limitate, salvo rari talenti eccezionali. Alcuni sviluppano un talento unico innato (es. immunità al fuoco, percezione magica, ecc.).
+- **Società**: incredibilmente diversificata. Regni feudali, repubbliche, città-stato e popoli nomadi convivono con equilibri delicati. Gli umani eccellono nell’adattabilità e nella diplomazia, ma sono anche spesso causa di guerre e conflitti ideologici.
+- **Religione**: presente in tutte le sue forme. Alcuni venerano le Virtù (Ordine), altri i Signori del Caos, altri ancora il Creatore o nulla. La spiritualità umana è variabile e contraddittoria, ma profonda.
+- **Artigianato**: versatili. Le tecnologie umane vanno da primitive a semi-avanzate, alimentate in parte dalla magia. Ottimi architetti, costruttori e navigatori.
+
+#### 🏰 Stati e Regioni Umani Principali
+
+1. **Impero di Velendar** – *"Luce tra le Tempeste"*
+   - **Tipo**: Monarchia semi-assoluta
+   - **Posizione**: centro del continente orientale
+   - **Capitale**: **Thalareth**, città sul lago, sede dell’Accademia Magica Umana
+   - **Regioni**: Colline di Mirdan, Valle dei Sussurri, Penisola di Sereth
+   - **Religione dominante**: Ordine
+
+2. **Confederazione di Kaerdan** – *"I Liberi di Spada e Seme"*
+   - **Tipo**: Alleanza tra città-stato
+   - **Posizione**: sud-ovest del continente occidentale
+   - **Principali città**: **Dhorvar**, **Kael’tir**, **Eronmar** (porto commerciale)
+   - **Regioni**: Campi del Sole, Arcipelago di Herma, Dune di Nareth
+   - **Religione dominante**: mista (Ordine, Creatore, culto locale delle Maree)
+
+3. **Regno di Brynnar** – *"La Spada e la Cenere"*
+   - **Tipo**: Monarchia feudale
+   - **Posizione**: estremo nord del continente orientale
+   - **Capitale**: **Valkhyr**, città fortificata nella neve
+   - **Regioni**: Gelide Piane, Rocce dei Corvi, Mare Infranto
+   - **Religione dominante**: minoranze Ordine/Caos, ma forte spiritualità tribale
+
+4. **Clani Erranti del Kareth** – *"Popolo del Cielo Aperto"*
+   - **Tipo**: Nomadi tribali
+   - **Posizione**: deserti e steppe tra i due continenti (nella zona sud)
+   - **Centri noti**: **Oasi di Tarlan**, **Mercato di Vandra**, **Torre del Cielo** (rovina usata come punto di raduno)
+   - **Religione dominante**: culto del Creatore, totemismo locale
+
+#### 🤝 Relazioni con le altre razze
+- Conflittuali ma diplomatici con elfi e nani.
+- Buoni rapporti con gli gnomi artigiani.
+- Relazioni tese con orchi e uomini capra/toro (pregiudizi culturali).
+- Scambi con uomini lucertola e pesce solo in zone costiere.
+- Non hanno quasi contatti diretti con le razze alate o i desertici Zar’kaan, salvo tramite mediatori fidati.
+
+#### 🧠 Note narrative
+- Gli umani saranno spesso coinvolti nei grandi eventi della storia: guerre religiose, scoperte magiche, profezie.
+- Le loro divisioni interne sono uno specchio della lotta tra Ordine, Caos e Creatore.
+
+---

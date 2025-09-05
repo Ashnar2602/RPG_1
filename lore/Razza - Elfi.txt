@@ -1,0 +1,41 @@
+---
+
+### 🧝 Elfi — *I Nati dalla Prima Luce*
+
+- **Aspetto fisico**: tutti gli elfi condividono orecchie a punta, tratti eleganti e innaturale bellezza. Differenze marcate tra sottorazze: Alti Elfi (colori dorati, molto alti), Elfi Silvani (tratti naturali, occhi verdi/ambra), Elfi Scuri (pelle scura, capelli chiari o neri, occhi grigi/azzurri).
+- **Magia**: tutti gli elfi sono predisposti alla magia. Gli Alti Elfi eccellono nella **Luce**, i Silvani nella **Terra**, gli Scuri nell’**Ombra**. 
+- **Società**: longevi e spesso isolazionisti, ogni sottorazza ha sviluppato società diverse ma basate su lignaggio, rituali e merito arcano. Gli elfi sono immortali ma raramente fertili.
+- **Religione**: la maggioranza crede nel Creatore, ma con forti minoranze divise tra Ordine e Caos. Alcuni elfi Scuri venerano antichi spiriti intermedi.
+- **Artigianato**: famosi per la raffinatezza e la perfezione. Le armi elfiche sono leggere e letali, le loro strutture armonizzano con la natura o con la luce.
+
+#### 🌲 Regni e Città Elfiche Principali
+
+1. **Dominio di Altherys** – *"La Corona Dorata del Nord"*
+   - **Tipo**: Consiglio di casate alto-elfiche
+   - **Posizione**: nord del continente occidentale, fra foreste e colline eteree
+   - **Capitale**: **Elarion**, città sospesa tra cristalli e luce
+   - **Regioni**: Selva Luminosa, Laghi delle Lacrime Dorate
+
+2. **Boschi di Rhywelan** – *"I Guardiani delle Radici"*
+   - **Tipo**: Consiglio druidico elfico-silvano
+   - **Posizione**: isole minori dell’arcipelago centrale e foreste del sud del continente
+   - **Capitale**: **Thera’del**, città fusa nel cuore vivente di un albero titanico
+   - **Regioni**: Isola di Laan, Bosco di Thern, Santuario del Primo Albero
+
+3. **Reame di Voryn’Dhal** – *"L’Ombra che Veglia"*
+   - **Tipo**: Oligarchia segreta elfico-scura
+   - **Posizione**: regioni profonde del continente orientale, in caverne o roccaforti nascoste
+   - **Capitale**: **Nalthor**, città sotterranea d’obsidiana e vetro nero
+   - **Regioni**: Gole di Shadd, Cripte d’Amet, Pilastri dell’Eco
+
+#### 🤝 Relazioni con le altre razze
+- Diffidenza verso nani e orchi.
+- Rapporti diplomatici altalenanti con gli umani (alleanze millenarie o guerre sanguinose).
+- Elfi Silvani collaborano spesso con uomini lucertola e gnomi.
+- Elfi Scuri tendono all’isolamento, ma mantengono ambasciatori segreti in alcune corti umane e caotiche.
+
+#### 🧠 Note narrative
+- Gli elfi saranno portatori di memorie antiche, conoscenze perdute e catalizzatori di cambiamenti epocali.
+- Il contrasto tra le tre sottorazze può dare origine a tensioni interne, rivoluzioni o unificazioni profetiche.
+
+---

@@ -1,0 +1,45 @@
+Eccoti un **elenco completo e dettagliato** di **tutte le Virtù** (Forze dell’Ordine) e **tutti i Signori del Caos**, con i rispettivi **ruoli, poteri e caratteristiche distintive**
+
+---
+
+## 🏛️ **VIRTÙ DELL’ORDINE**  
+Entità divine legate alla luce, all’equilibrio e al sacrificio. Ogni Virtù rappresenta un principio morale assoluto. Non possono manifestarsi direttamente nel mondo se non **incarnandosi nei loro Araldi o Luogotenenti**.
+
+| **Nome**         | **Ruolo**                                        | **Poteri e Caratteristiche**                                                                 |
+|------------------|--------------------------------------------------|----------------------------------------------------------------------------------------------|
+| **Valore**       | Comandante supremo dell’Ordine                   | Incarna il coraggio, la forza e la disciplina militare. È disposto a tutto per la vittoria. |
+| **Giustizia**    | Giudice assoluto                                 | Simboleggia la legge inflessibile. Implacabile, punisce ogni trasgressione.                 |
+| **Misericordia** | Compassione e redenzione                         | Crede nella salvezza dell’anima e nel perdono. Diventerà leader dei Custodi del Vuoto.      |
+| **Verità**       | Sapienza e conoscenza universale                 | Sa tutto, ma nasconde informazioni scomode.                                                  |
+| **Sacrificio**   | Virtù perduta, martire                           | Morì per proteggere la reliquia. Fondatrice spirituale dei Custodi del Vuoto.               |
+| **Umiltà**       | Rinuncia all’ego                                 | Reputa il servizio disinteressato la forma più alta di purezza.                             |
+| **Generosità**   | Offerta incondizionata                           | Dona sé stessa per rafforzare gli altri. Cura e potenzia gli alleati.                       |
+| **Temperanza**   | Controllo e moderazione                          | Resiste alla corruzione e agli eccessi. Difende l’equilibrio spirituale.                    |
+| **Diligenza**    | Impegno e disciplina                             | Instancabile, motiva gli Araldi e rafforza la logistica dell’Ordine.                        |
+| **Pazienza**     | Attesa consapevole                               | Non agisce impulsivamente. Le sue strategie sono millenarie.                                |
+| **Castità**      | Purezza di intenti                               | Si oppone alla tentazione e alla manipolazione emotiva.                                      |
+| **Benevolenza**  | Amore incondizionato                             | Fonte di speranza, guarisce anche i nemici se redenti.                                      |
+| **Perseveranza** | Nuova Virtù aggiunta                             | Non si arrende mai, incarna la resistenza spirituale al Caos.                               |
+
+> 📝 Alcune Virtù (come **Giustizia** e **Verità**) sono già presenti, ma in futuro potresti voler aggiungere nuove Virtù minori o regionali.
+
+---
+
+## 🔥 **SIGNORI DEL CAOS**  
+Divinità antiche, anarchiche e distruttive. Alimentano i **Peccati Capitali** e i **desideri primordiali**. Non hanno una gerarchia rigida, ma **quattro sono dominanti**, ispirati ai **Cavalieri dell’Apocalisse**.
+
+| **Nome**         | **Ruolo / Ispirazione**           | **Poteri e Caratteristiche**                                                                |
+|------------------|-----------------------------------|---------------------------------------------------------------------------------------------|
+| **Guerra**       | Distruzione totale                | Signore del conflitto. Spazza via tutto ciò che trova. Combattente supremo.                |
+| **Carestia**     | Vuoto, privazione                 | Annienta le risorse e la speranza. Porta carestia, crisi, rovina.                          |
+| **Pestilenza**   | Corruzione e malattia             | Diffonde malattie fisiche e spirituali. Deforma i luoghi e gli esseri viventi.             |
+| **Morte**        | Fine inevitabile                  | La sua presenza toglie ogni vita. Silenziosa, spietata, ineluttabile.                      |
+| **Inganno**      | Peccato capitale: inganno         | Manipola, mente, distorce la verità. Araldo: **Vaelis, Voce Serpeggiante**.                |
+| **Invidia**      | Peccato capitale: invidia         | Corrompe con il desiderio di ciò che non si ha. Araldo: **Lyskar, Sussurro del Rancore**.  |
+| **Furore**       | Peccato capitale: ira  	       | Alimenta odio e violenza incontrollata. Fa esplodere guerre civili e lotte interne.        |
+| **Brama**        | Peccato capitale: avarizia        | Spinge a possedere tutto, anche a costo dell’anima.                                        |
+| **Superbia**     | Peccato capitale: egocentrismo    | Illude gli esseri mortali di essere divini. Manipola attraverso il culto di sé stessi.     |
+
+> Ogni Signore ha almeno **un Araldo** (alcuni, come **Guerra**, ne hanno due) e può **incarnarsi solo brevemente** nel mondo mortale se non tramite possessione.
+
+---
