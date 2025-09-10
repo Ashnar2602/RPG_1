@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-cosmic-dark text-cosmic-light antialiased;
+    @apply min-h-screen overflow-x-hidden;
+  }
+  
+  * {
+    @apply scrollbar-thin scrollbar-track-cosmic-gray scrollbar-thumb-cosmic-purple;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-cosmic-purple hover:bg-cosmic-purple/90 text-white;
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-cosmic-purple focus:ring-offset-2;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-secondary {
+    @apply bg-cosmic-gray hover:bg-cosmic-gray/90 text-cosmic-light;
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-cosmic-gray focus:ring-offset-2;
+  }
+  
+  .input-field {
+    @apply bg-cosmic-gray/50 border border-cosmic-gray text-cosmic-light;
+    @apply px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cosmic-purple;
+    @apply placeholder:text-cosmic-silver transition-all duration-200;
+  }
+  
+  .card {
+    @apply bg-cosmic-gray/30 backdrop-blur-sm border border-cosmic-gray/50 rounded-xl;
+    @apply shadow-lg shadow-cosmic-dark/20;
+  }
+  
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/5 border border-white/10;
+  }
+  
+  .stat-bar {
+    @apply h-2 rounded-full overflow-hidden bg-cosmic-gray/30;
+  }
+  
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-cosmic-purple/20 border-t-cosmic-purple;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(107, 70, 193, 0.3);
+  }
+  
+  .glow-gold {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  }
+  
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-track-cosmic-gray {
+    scrollbar-color: #6B46C1 #374151;
+  }
+  
+  .scrollbar-thumb-cosmic-purple {
+    scrollbar-color: #6B46C1 #374151;
+  }
+}

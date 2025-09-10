@@ -1,0 +1,625 @@
+// Prisma Schema per RPG Fantasy Multiplayer
+// Implementa il database schema completo dalle specifiche
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+// CORE USER MANAGEMENT SYSTEM
+// ==========================================
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  username      String   @unique
+  password      String
+  isActive      Boolean  @default(true)
+  isOnline      Boolean  @default(false)
+  lastLogin     DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Premium/Subscription
+  isPremium     Boolean  @default(false)
+  premiumUntil  DateTime?
+  
+  // Relations
+  characters    Character[]
+  guildMember   GuildMember?
+  friends       Friend[] @relation("UserFriends")
+  friendOf      Friend[] @relation("FriendOfUser")
+  chatMessages  ChatMessage[]
+  
+  @@map("users")
+}
+
+// ==========================================
+// CHARACTER SYSTEM
+// ==========================================
+
+model Character {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String   @unique
+  race          CharacterRace
+  characterClass CharacterClass @map("class")
+  level         Int      @default(1)
+  experience    Int      @default(0)
+  
+  // Core Stats (Base)
+  baseHealth    Int      @default(100)
+  baseMana      Int      @default(50)
+  baseStamina   Int      @default(100)
+  
+  // Primary Attributes
+  strength      Int      @default(10)
+  agility       Int      @default(10)
+  intelligence  Int      @default(10)
+  vitality      Int      @default(10)
+  wisdom        Int      @default(10)
+  charisma      Int      @default(10)
+  
+  // Current State
+  currentHealth Int      @default(100)
+  currentMana   Int      @default(50)
+  currentStamina Int     @default(100)
+  
+  // World Position
+  locationId    String?
+  x             Float    @default(0)
+  y             Float    @default(0)
+  z             Float    @default(0)
+  facing        Float    @default(0) // Rotation in degrees
+  
+  // Currency
+  gold          Int      @default(100)
+  gems          Int      @default(0)
+  
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastLogin     DateTime @default(now())
+  
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  location      Location? @relation(fields: [locationId], references: [id])
+  inventory     InventoryItem[]
+  equipment     Equipment[]
+  guildMember   GuildMember?
+  questProgress QuestProgress[]
+  combatLogs    CombatLog[]
+  chatMessages  ChatMessage[]
+  
+  @@map("characters")
+}
+
+enum CharacterRace {
+  HUMAN       // Uomini
+  ELF         // Elfi
+  DWARF       // Nani
+  GNOME       // Gnomi
+  ORC         // Orchi
+  TROLL       // Troll
+  LIZARDMAN   // Uomini Lucertola
+  FISHMAN     // Uomini Pesce
+  AERATHI     // Aerathi
+  GUOLGARN    // Guolgarn
+  ZARKAAN     // Zar'kaan
+}
+
+enum CharacterClass {
+  WARRIOR     // Guerriero
+  MAGE        // Mago
+  ROGUE       // Ladro
+  CLERIC      // Chierico
+  RANGER      // Ranger
+  PALADIN     // Paladino
+  WARLOCK     // Warlock
+  BARD        // Bardo
+  MONK        // Monaco
+  BARBARIAN   // Barbaro
+}
+
+// ==========================================
+// WORLD & LOCATION SYSTEM
+// ==========================================
+
+model Location {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  type          LocationType
+  
+  // Coordinates
+  x             Float
+  y             Float
+  z             Float    @default(0)
+  
+  // Area Properties
+  isStartArea   Boolean  @default(false)
+  isSafeZone    Boolean  @default(true)
+  isPvpEnabled  Boolean  @default(false)
+  maxPlayers    Int      @default(50)
+  
+  // Connected Locations
+  parentId      String?
+  
+  // Relations
+  parent        Location? @relation("LocationHierarchy", fields: [parentId], references: [id])
+  children      Location[] @relation("LocationHierarchy")
+  characters    Character[]
+  npcs          NPC[]
+  spawns        SpawnPoint[]
+  
+  @@map("locations")
+}
+
+enum LocationType {
+  TOWN
+  CITY
+  VILLAGE
+  DUNGEON
+  WILDERNESS
+  CAVE
+  FOREST
+  MOUNTAIN
+  DESERT
+  SWAMP
+  RUINS
+  TEMPLE
+}
+
+model SpawnPoint {
+  id            String   @id @default(cuid())
+  locationId    String
+  entityType    String   // npc, monster, resource
+  entityId      String?
+  x             Float
+  y             Float
+  z             Float    @default(0)
+  respawnTime   Int      @default(300) // seconds
+  lastSpawn     DateTime?
+  isActive      Boolean  @default(true)
+  
+  // Relations
+  location      Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  
+  @@map("spawn_points")
+}
+
+// ==========================================
+// ITEM & INVENTORY SYSTEM
+// ==========================================
+
+model Item {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  type          ItemType
+  subType       String?  // weapon_sword, armor_chest, etc.
+  rarity        ItemRarity @default(COMMON)
+  
+  // Properties
+  value         Int      @default(0)
+  weight        Float    @default(0.1)
+  stackable     Boolean  @default(false)
+  maxStack      Int      @default(1)
+  
+  // Equipment Stats (if applicable)
+  damage        Int      @default(0)
+  defense       Int      @default(0)
+  durability    Int      @default(100)
+  
+  // Requirements
+  levelRequired Int      @default(1)
+  classRequired CharacterClass?
+  raceRequired  CharacterRace?
+  
+  // Relations
+  inventoryItems InventoryItem[]
+  equipment     Equipment[]
+  
+  @@map("items")
+}
+
+enum ItemType {
+  WEAPON
+  ARMOR
+  ACCESSORY
+  CONSUMABLE
+  MATERIAL
+  QUEST
+  CURRENCY
+  MISC
+}
+
+enum ItemRarity {
+  COMMON
+  UNCOMMON
+  RARE
+  EPIC
+  LEGENDARY
+  MYTHIC
+}
+
+model InventoryItem {
+  id            String   @id @default(cuid())
+  characterId   String
+  itemId        String
+  quantity      Int      @default(1)
+  slot          Int?     // inventory slot position
+  
+  // Item State
+  durability    Int?     // current durability
+  enchantLevel  Int      @default(0)
+  
+  createdAt     DateTime @default(now())
+  
+  // Relations
+  character     Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  item          Item     @relation(fields: [itemId], references: [id])
+  
+  @@unique([characterId, slot])
+  @@map("inventory_items")
+}
+
+model Equipment {
+  id            String   @id @default(cuid())
+  characterId   String
+  itemId        String
+  slot          EquipmentSlot
+  
+  // Equipment State
+  durability    Int      @default(100)
+  enchantLevel  Int      @default(0)
+  
+  equippedAt    DateTime @default(now())
+  
+  // Relations
+  character     Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  item          Item     @relation(fields: [itemId], references: [id])
+  
+  @@unique([characterId, slot])
+  @@map("equipment")
+}
+
+enum EquipmentSlot {
+  HEAD
+  CHEST
+  LEGS
+  FEET
+  HANDS
+  MAIN_HAND
+  OFF_HAND
+  RING_1
+  RING_2
+  NECKLACE
+  BELT
+  CLOAK
+}
+
+// ==========================================
+// COMBAT SYSTEM
+// ==========================================
+
+model CombatLog {
+  id            String   @id @default(cuid())
+  attackerId    String?
+  defenderId    String?
+  type          CombatActionType
+  damage        Int      @default(0)
+  heal          Int      @default(0)
+  critical      Boolean  @default(false)
+  miss          Boolean  @default(false)
+  timestamp     DateTime @default(now())
+  
+  // Relations
+  attacker      Character? @relation(fields: [attackerId], references: [id])
+  
+  @@map("combat_logs")
+}
+
+enum CombatActionType {
+  ATTACK
+  DEFEND
+  SKILL
+  SPELL
+  HEAL
+  BUFF
+  DEBUFF
+  FLEE
+}
+
+// ==========================================
+// NPC SYSTEM
+// ==========================================
+
+model NPC {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  type          NPCType
+  race          CharacterRace
+  level         Int      @default(1)
+  
+  // Stats
+  health        Int      @default(100)
+  damage        Int      @default(10)
+  defense       Int      @default(5)
+  
+  // Position
+  locationId    String
+  x             Float
+  y             Float
+  z             Float    @default(0)
+  facing        Float    @default(0)
+  
+  // Behavior
+  isAggressive  Boolean  @default(false)
+  patrolRadius  Float    @default(10)
+  
+  // Loot
+  goldDrop      Int      @default(0)
+  expDrop       Int      @default(0)
+  
+  // Relations
+  location      Location @relation(fields: [locationId], references: [id])
+  quests        Quest[]
+  
+  @@map("npcs")
+}
+
+enum NPCType {
+  MERCHANT
+  GUARD
+  QUEST_GIVER
+  MONSTER
+  BOSS
+  CRAFTER
+  TRAINER
+}
+
+// ==========================================
+// QUEST SYSTEM
+// ==========================================
+
+model Quest {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  type          QuestType
+  level         Int      @default(1)
+  
+  // Requirements
+  levelRequired Int      @default(1)
+  prerequisiteQuestId String?
+  
+  // Rewards
+  expReward     Int      @default(0)
+  goldReward    Int      @default(0)
+  
+  // NPC Relations
+  giveNPCId     String?
+  turnInNPCId   String?
+  
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  
+  // Relations
+  prerequisite  Quest?   @relation("QuestPrerequisite", fields: [prerequisiteQuestId], references: [id])
+  dependents    Quest[]  @relation("QuestPrerequisite")
+  giveNPC       NPC?     @relation(fields: [giveNPCId], references: [id])
+  progress      QuestProgress[]
+  
+  @@map("quests")
+}
+
+enum QuestType {
+  KILL
+  COLLECT
+  DELIVERY
+  EXPLORATION
+  STORY
+  DAILY
+  WEEKLY
+}
+
+model QuestProgress {
+  id            String   @id @default(cuid())
+  characterId   String
+  questId       String
+  status        QuestStatus @default(IN_PROGRESS)
+  progress      Int      @default(0)
+  maxProgress   Int      @default(1)
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
+  
+  // Relations
+  character     Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  quest         Quest    @relation(fields: [questId], references: [id])
+  
+  @@unique([characterId, questId])
+  @@map("quest_progress")
+}
+
+enum QuestStatus {
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  TURNED_IN
+}
+
+// ==========================================
+// GUILD SYSTEM
+// ==========================================
+
+model Guild {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  tag           String   @unique @db.VarChar(5)
+  description   String?
+  level         Int      @default(1)
+  experience    Int      @default(0)
+  
+  // Treasury
+  gold          Int      @default(0)
+  gems          Int      @default(0)
+  
+  // Settings
+  isRecruiting  Boolean  @default(true)
+  minLevel      Int      @default(1)
+  maxMembers    Int      @default(50)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  members       GuildMember[]
+  
+  @@map("guilds")
+}
+
+model GuildMember {
+  id            String   @id @default(cuid())
+  characterId   String   @unique
+  userId        String   @unique
+  guildId       String
+  role          GuildRole @default(MEMBER)
+  
+  // Contributions
+  expContributed Int     @default(0)
+  goldContributed Int    @default(0)
+  
+  joinedAt      DateTime @default(now())
+  lastActive    DateTime @default(now())
+  
+  // Relations
+  character     Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guild         Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  
+  @@map("guild_members")
+}
+
+enum GuildRole {
+  MEMBER
+  OFFICER
+  VICE_LEADER
+  LEADER
+}
+
+// ==========================================
+// SOCIAL SYSTEM
+// ==========================================
+
+model Friend {
+  id            String   @id @default(cuid())
+  userId        String
+  friendId      String
+  status        FriendStatus @default(PENDING)
+  createdAt     DateTime @default(now())
+  acceptedAt    DateTime?
+  
+  // Relations
+  user          User     @relation("UserFriends", fields: [userId], references: [id], onDelete: Cascade)
+  friend        User     @relation("FriendOfUser", fields: [friendId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, friendId])
+  @@map("friends")
+}
+
+enum FriendStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}
+
+// ==========================================
+// CHAT SYSTEM
+// ==========================================
+
+model ChatChannel {
+  id            String   @id @default(cuid())
+  name          String
+  type          ChannelType
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  
+  // Relations
+  messages      ChatMessage[]
+  
+  @@map("chat_channels")
+}
+
+enum ChannelType {
+  GLOBAL
+  LOCAL
+  GUILD
+  PARTY
+  WHISPER
+  SYSTEM
+}
+
+model ChatMessage {
+  id            String   @id @default(cuid())
+  channelId     String
+  userId        String
+  characterId   String?
+  message       String   @db.Text
+  timestamp     DateTime @default(now())
+  
+  // Relations
+  channel       ChatChannel @relation(fields: [channelId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+  character     Character?  @relation(fields: [characterId], references: [id])
+  
+  @@map("chat_messages")
+}
+
+// ==========================================
+// GAME EVENTS & LOGS
+// ==========================================
+
+model GameEvent {
+  id            String   @id @default(cuid())
+  type          EventType
+  data          Json     // Event-specific data
+  timestamp     DateTime @default(now())
+  processed     Boolean  @default(false)
+  
+  @@map("game_events")
+}
+
+enum EventType {
+  PLAYER_LOGIN
+  PLAYER_LOGOUT
+  PLAYER_LEVEL_UP
+  PLAYER_DEATH
+  GUILD_CREATED
+  GUILD_DISBANDED
+  QUEST_COMPLETED
+  ITEM_CRAFTED
+  COMBAT_START
+  COMBAT_END
+}
+
+// ==========================================
+// SYSTEM CONFIGURATION
+// ==========================================
+
+model GameConfig {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  value         String
+  description   String?
+  category      String   @default("general")
+  updatedAt     DateTime @updatedAt
+  
+  @@map("game_config")
+}

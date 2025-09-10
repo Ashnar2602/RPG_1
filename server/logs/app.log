@@ -1,0 +1,756 @@
+2025-09-09 18:25:24 [INFO]: 🚀 Starting database seed...
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [INFO]: Creating default locations...
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"locations\".\"id\" FROM \"public\".\"locations\" WHERE (\"public\".\"locations\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"goblin-cave\",0]",
+  "duration": "7ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"locations\" (\"id\",\"name\",\"description\",\"type\",\"x\",\"y\",\"z\",\"isStartArea\",\"isSafeZone\",\"isPvpEnabled\",\"maxPlayers\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"LocationType\"),$5,$6,$7,$8,$9,$10,$11) RETURNING \"public\".\"locations\".\"id\"",
+  "params": "[\"goblin-cave\",\"Goblin Cave\",\"A dark cave inhabited by hostile goblins\",\"CAVE\",150,50,-10,false,false,false,10]",
+  "duration": "16ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "9ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "7ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"locations\".\"id\", \"public\".\"locations\".\"name\", \"public\".\"locations\".\"description\", \"public\".\"locations\".\"type\"::text, \"public\".\"locations\".\"x\", \"public\".\"locations\".\"y\", \"public\".\"locations\".\"z\", \"public\".\"locations\".\"isStartArea\", \"public\".\"locations\".\"isSafeZone\", \"public\".\"locations\".\"isPvpEnabled\", \"public\".\"locations\".\"maxPlayers\", \"public\".\"locations\".\"parentId\" FROM \"public\".\"locations\" WHERE \"public\".\"locations\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"goblin-cave\",1,0]",
+  "duration": "13ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"locations\".\"id\" FROM \"public\".\"locations\" WHERE (\"public\".\"locations\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"newbie-town\",0]",
+  "duration": "19ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"locations\" (\"id\",\"name\",\"description\",\"type\",\"x\",\"y\",\"z\",\"isStartArea\",\"isSafeZone\",\"isPvpEnabled\",\"maxPlayers\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"LocationType\"),$5,$6,$7,$8,$9,$10,$11) RETURNING \"public\".\"locations\".\"id\"",
+  "params": "[\"newbie-town\",\"Newbie Town\",\"A peaceful starting town for new adventurers\",\"TOWN\",0,0,0,true,true,false,100]",
+  "duration": "6ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"locations\".\"id\" FROM \"public\".\"locations\" WHERE (\"public\".\"locations\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"forest-entrance\",0]",
+  "duration": "26ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"locations\" (\"id\",\"name\",\"description\",\"type\",\"x\",\"y\",\"z\",\"isStartArea\",\"isSafeZone\",\"isPvpEnabled\",\"maxPlayers\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"LocationType\"),$5,$6,$7,$8,$9,$10,$11) RETURNING \"public\".\"locations\".\"id\"",
+  "params": "[\"forest-entrance\",\"Forest Entrance\",\"The entrance to the mysterious Whispering Woods\",\"WILDERNESS\",100,0,0,false,false,true,50]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"locations\".\"id\", \"public\".\"locations\".\"name\", \"public\".\"locations\".\"description\", \"public\".\"locations\".\"type\"::text, \"public\".\"locations\".\"x\", \"public\".\"locations\".\"y\", \"public\".\"locations\".\"z\", \"public\".\"locations\".\"isStartArea\", \"public\".\"locations\".\"isSafeZone\", \"public\".\"locations\".\"isPvpEnabled\", \"public\".\"locations\".\"maxPlayers\", \"public\".\"locations\".\"parentId\" FROM \"public\".\"locations\" WHERE \"public\".\"locations\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"newbie-town\",1,0]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"locations\".\"id\", \"public\".\"locations\".\"name\", \"public\".\"locations\".\"description\", \"public\".\"locations\".\"type\"::text, \"public\".\"locations\".\"x\", \"public\".\"locations\".\"y\", \"public\".\"locations\".\"z\", \"public\".\"locations\".\"isStartArea\", \"public\".\"locations\".\"isSafeZone\", \"public\".\"locations\".\"isPvpEnabled\", \"public\".\"locations\".\"maxPlayers\", \"public\".\"locations\".\"parentId\" FROM \"public\".\"locations\" WHERE \"public\".\"locations\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"forest-entrance\",1,0]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "154ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "131ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "130ms"
+}
+2025-09-09 18:25:24 [INFO]: Created 3 locations
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [INFO]: Creating basic items...
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\" FROM \"public\".\"items\" WHERE (\"public\".\"items\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"basic_sword\",0]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\" FROM \"public\".\"items\" WHERE (\"public\".\"items\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"basic_staff\",0]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"items\" (\"id\",\"name\",\"description\",\"type\",\"subType\",\"rarity\",\"value\",\"weight\",\"stackable\",\"maxStack\",\"damage\",\"defense\",\"durability\",\"levelRequired\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"ItemType\"),$5,CAST($6::text AS \"public\".\"ItemRarity\"),$7,$8,$9,$10,$11,$12,$13,$14) RETURNING \"public\".\"items\".\"id\"",
+  "params": "[\"basic_sword\",\"Basic Iron Sword\",\"A simple but reliable iron sword for new warriors\",\"WEAPON\",\"sword\",\"COMMON\",25,3,false,1,15,0,100,1]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\" FROM \"public\".\"items\" WHERE (\"public\".\"items\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"leather_armor\",0]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"items\" (\"id\",\"name\",\"description\",\"type\",\"subType\",\"rarity\",\"value\",\"weight\",\"stackable\",\"maxStack\",\"damage\",\"defense\",\"durability\",\"levelRequired\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"ItemType\"),$5,CAST($6::text AS \"public\".\"ItemRarity\"),$7,$8,$9,$10,$11,$12,$13,$14) RETURNING \"public\".\"items\".\"id\"",
+  "params": "[\"basic_staff\",\"Apprentice Staff\",\"A wooden staff imbued with basic magical energy\",\"WEAPON\",\"staff\",\"COMMON\",20,2,false,1,8,0,100,1]",
+  "duration": "6ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\", \"public\".\"items\".\"name\", \"public\".\"items\".\"description\", \"public\".\"items\".\"type\"::text, \"public\".\"items\".\"subType\", \"public\".\"items\".\"rarity\"::text, \"public\".\"items\".\"value\", \"public\".\"items\".\"weight\", \"public\".\"items\".\"stackable\", \"public\".\"items\".\"maxStack\", \"public\".\"items\".\"damage\", \"public\".\"items\".\"defense\", \"public\".\"items\".\"durability\", \"public\".\"items\".\"levelRequired\", \"public\".\"items\".\"classRequired\"::text, \"public\".\"items\".\"raceRequired\"::text FROM \"public\".\"items\" WHERE \"public\".\"items\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"basic_sword\",1,0]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"items\" (\"id\",\"name\",\"description\",\"type\",\"subType\",\"rarity\",\"value\",\"weight\",\"stackable\",\"maxStack\",\"damage\",\"defense\",\"durability\",\"levelRequired\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"ItemType\"),$5,CAST($6::text AS \"public\".\"ItemRarity\"),$7,$8,$9,$10,$11,$12,$13,$14) RETURNING \"public\".\"items\".\"id\"",
+  "params": "[\"leather_armor\",\"Leather Armor\",\"Basic leather armor providing modest protection\",\"ARMOR\",\"chest\",\"COMMON\",30,5,false,1,0,10,100,1]",
+  "duration": "9ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "7ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\", \"public\".\"items\".\"name\", \"public\".\"items\".\"description\", \"public\".\"items\".\"type\"::text, \"public\".\"items\".\"subType\", \"public\".\"items\".\"rarity\"::text, \"public\".\"items\".\"value\", \"public\".\"items\".\"weight\", \"public\".\"items\".\"stackable\", \"public\".\"items\".\"maxStack\", \"public\".\"items\".\"damage\", \"public\".\"items\".\"defense\", \"public\".\"items\".\"durability\", \"public\".\"items\".\"levelRequired\", \"public\".\"items\".\"classRequired\"::text, \"public\".\"items\".\"raceRequired\"::text FROM \"public\".\"items\" WHERE \"public\".\"items\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"basic_staff\",1,0]",
+  "duration": "11ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\", \"public\".\"items\".\"name\", \"public\".\"items\".\"description\", \"public\".\"items\".\"type\"::text, \"public\".\"items\".\"subType\", \"public\".\"items\".\"rarity\"::text, \"public\".\"items\".\"value\", \"public\".\"items\".\"weight\", \"public\".\"items\".\"stackable\", \"public\".\"items\".\"maxStack\", \"public\".\"items\".\"damage\", \"public\".\"items\".\"defense\", \"public\".\"items\".\"durability\", \"public\".\"items\".\"levelRequired\", \"public\".\"items\".\"classRequired\"::text, \"public\".\"items\".\"raceRequired\"::text FROM \"public\".\"items\" WHERE \"public\".\"items\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"leather_armor\",1,0]",
+  "duration": "7ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\" FROM \"public\".\"items\" WHERE (\"public\".\"items\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"mana_potion\",0]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"items\" (\"id\",\"name\",\"description\",\"type\",\"subType\",\"rarity\",\"value\",\"weight\",\"stackable\",\"maxStack\",\"damage\",\"defense\",\"durability\",\"levelRequired\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"ItemType\"),$5,CAST($6::text AS \"public\".\"ItemRarity\"),$7,$8,$9,$10,$11,$12,$13,$14) RETURNING \"public\".\"items\".\"id\"",
+  "params": "[\"mana_potion\",\"Mana Potion\",\"A blue potion that restores magical energy\",\"CONSUMABLE\",\"potion\",\"COMMON\",12,0.2,true,50,0,0,100,1]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\", \"public\".\"items\".\"name\", \"public\".\"items\".\"description\", \"public\".\"items\".\"type\"::text, \"public\".\"items\".\"subType\", \"public\".\"items\".\"rarity\"::text, \"public\".\"items\".\"value\", \"public\".\"items\".\"weight\", \"public\".\"items\".\"stackable\", \"public\".\"items\".\"maxStack\", \"public\".\"items\".\"damage\", \"public\".\"items\".\"defense\", \"public\".\"items\".\"durability\", \"public\".\"items\".\"levelRequired\", \"public\".\"items\".\"classRequired\"::text, \"public\".\"items\".\"raceRequired\"::text FROM \"public\".\"items\" WHERE \"public\".\"items\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"mana_potion\",1,0]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\" FROM \"public\".\"items\" WHERE (\"public\".\"items\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"health_potion\",0]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"items\" (\"id\",\"name\",\"description\",\"type\",\"subType\",\"rarity\",\"value\",\"weight\",\"stackable\",\"maxStack\",\"damage\",\"defense\",\"durability\",\"levelRequired\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"ItemType\"),$5,CAST($6::text AS \"public\".\"ItemRarity\"),$7,$8,$9,$10,$11,$12,$13,$14) RETURNING \"public\".\"items\".\"id\"",
+  "params": "[\"health_potion\",\"Health Potion\",\"A red potion that restores health when consumed\",\"CONSUMABLE\",\"potion\",\"COMMON\",10,0.2,true,50,0,0,100,1]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"items\".\"id\", \"public\".\"items\".\"name\", \"public\".\"items\".\"description\", \"public\".\"items\".\"type\"::text, \"public\".\"items\".\"subType\", \"public\".\"items\".\"rarity\"::text, \"public\".\"items\".\"value\", \"public\".\"items\".\"weight\", \"public\".\"items\".\"stackable\", \"public\".\"items\".\"maxStack\", \"public\".\"items\".\"damage\", \"public\".\"items\".\"defense\", \"public\".\"items\".\"durability\", \"public\".\"items\".\"levelRequired\", \"public\".\"items\".\"classRequired\"::text, \"public\".\"items\".\"raceRequired\"::text FROM \"public\".\"items\" WHERE \"public\".\"items\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"health_potion\",1,0]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [INFO]: Created 5 items
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [INFO]: Creating NPCs...
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"npcs\".\"id\" FROM \"public\".\"npcs\" WHERE (\"public\".\"npcs\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"town-guard\",0]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"npcs\".\"id\" FROM \"public\".\"npcs\" WHERE (\"public\".\"npcs\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"item-merchant\",0]",
+  "duration": "6ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"npcs\".\"id\" FROM \"public\".\"npcs\" WHERE (\"public\".\"npcs\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"goblin-warrior\",0]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"npcs\" (\"id\",\"name\",\"description\",\"type\",\"race\",\"level\",\"health\",\"damage\",\"defense\",\"locationId\",\"x\",\"y\",\"z\",\"facing\",\"isAggressive\",\"patrolRadius\",\"goldDrop\",\"expDrop\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"NPCType\"),CAST($5::text AS \"public\".\"CharacterRace\"),$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) RETURNING \"public\".\"npcs\".\"id\"",
+  "params": "[\"goblin-warrior\",\"Goblin Warrior\",\"A fierce goblin warrior guarding the cave\",\"MONSTER\",\"ORC\",3,80,25,8,\"goblin-cave\",0,0,-5,0,true,15,5,25]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"npcs\" (\"id\",\"name\",\"description\",\"type\",\"race\",\"level\",\"health\",\"damage\",\"defense\",\"locationId\",\"x\",\"y\",\"z\",\"facing\",\"isAggressive\",\"patrolRadius\",\"goldDrop\",\"expDrop\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"NPCType\"),CAST($5::text AS \"public\".\"CharacterRace\"),$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) RETURNING \"public\".\"npcs\".\"id\"",
+  "params": "[\"item-merchant\",\"Item Merchant\",\"A friendly merchant selling basic supplies\",\"MERCHANT\",\"HUMAN\",1,100,0,5,\"newbie-town\",-5,15,0,0,false,5,0,0]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"npcs\" (\"id\",\"name\",\"description\",\"type\",\"race\",\"level\",\"health\",\"damage\",\"defense\",\"locationId\",\"x\",\"y\",\"z\",\"facing\",\"isAggressive\",\"patrolRadius\",\"goldDrop\",\"expDrop\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"NPCType\"),CAST($5::text AS \"public\".\"CharacterRace\"),$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) RETURNING \"public\".\"npcs\".\"id\"",
+  "params": "[\"town-guard\",\"Town Guard\",\"A vigilant guard protecting the town\",\"GUARD\",\"HUMAN\",5,150,20,15,\"newbie-town\",10,10,0,0,false,20,0,0]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"npcs\".\"id\", \"public\".\"npcs\".\"name\", \"public\".\"npcs\".\"description\", \"public\".\"npcs\".\"type\"::text, \"public\".\"npcs\".\"race\"::text, \"public\".\"npcs\".\"level\", \"public\".\"npcs\".\"health\", \"public\".\"npcs\".\"damage\", \"public\".\"npcs\".\"defense\", \"public\".\"npcs\".\"locationId\", \"public\".\"npcs\".\"x\", \"public\".\"npcs\".\"y\", \"public\".\"npcs\".\"z\", \"public\".\"npcs\".\"facing\", \"public\".\"npcs\".\"isAggressive\", \"public\".\"npcs\".\"patrolRadius\", \"public\".\"npcs\".\"goldDrop\", \"public\".\"npcs\".\"expDrop\" FROM \"public\".\"npcs\" WHERE \"public\".\"npcs\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"goblin-warrior\",1,0]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"npcs\".\"id\", \"public\".\"npcs\".\"name\", \"public\".\"npcs\".\"description\", \"public\".\"npcs\".\"type\"::text, \"public\".\"npcs\".\"race\"::text, \"public\".\"npcs\".\"level\", \"public\".\"npcs\".\"health\", \"public\".\"npcs\".\"damage\", \"public\".\"npcs\".\"defense\", \"public\".\"npcs\".\"locationId\", \"public\".\"npcs\".\"x\", \"public\".\"npcs\".\"y\", \"public\".\"npcs\".\"z\", \"public\".\"npcs\".\"facing\", \"public\".\"npcs\".\"isAggressive\", \"public\".\"npcs\".\"patrolRadius\", \"public\".\"npcs\".\"goldDrop\", \"public\".\"npcs\".\"expDrop\" FROM \"public\".\"npcs\" WHERE \"public\".\"npcs\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"town-guard\",1,0]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"npcs\".\"id\", \"public\".\"npcs\".\"name\", \"public\".\"npcs\".\"description\", \"public\".\"npcs\".\"type\"::text, \"public\".\"npcs\".\"race\"::text, \"public\".\"npcs\".\"level\", \"public\".\"npcs\".\"health\", \"public\".\"npcs\".\"damage\", \"public\".\"npcs\".\"defense\", \"public\".\"npcs\".\"locationId\", \"public\".\"npcs\".\"x\", \"public\".\"npcs\".\"y\", \"public\".\"npcs\".\"z\", \"public\".\"npcs\".\"facing\", \"public\".\"npcs\".\"isAggressive\", \"public\".\"npcs\".\"patrolRadius\", \"public\".\"npcs\".\"goldDrop\", \"public\".\"npcs\".\"expDrop\" FROM \"public\".\"npcs\" WHERE \"public\".\"npcs\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"item-merchant\",1,0]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [INFO]: Created 3 NPCs
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [INFO]: Creating basic quests...
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"quests\".\"id\" FROM \"public\".\"quests\" WHERE (\"public\".\"quests\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"goblin-threat\",0]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"quests\".\"id\" FROM \"public\".\"quests\" WHERE (\"public\".\"quests\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"welcome-quest\",0]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"quests\" (\"id\",\"title\",\"description\",\"type\",\"level\",\"levelRequired\",\"expReward\",\"goldReward\",\"giveNPCId\",\"turnInNPCId\",\"isActive\",\"createdAt\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"QuestType\"),$5,$6,$7,$8,$9,$10,$11,$12) RETURNING \"public\".\"quests\".\"id\"",
+  "params": "[\"welcome-quest\",\"Welcome to the World\",\"Explore the town and talk to the Item Merchant to get familiar with the game\",\"EXPLORATION\",1,1,50,10,\"town-guard\",\"item-merchant\",true,\"2025-09-09 18:25:24.379 UTC\"]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"quests\" (\"id\",\"title\",\"description\",\"type\",\"level\",\"levelRequired\",\"expReward\",\"goldReward\",\"giveNPCId\",\"isActive\",\"createdAt\") VALUES ($1,$2,$3,CAST($4::text AS \"public\".\"QuestType\"),$5,$6,$7,$8,$9,$10,$11) RETURNING \"public\".\"quests\".\"id\"",
+  "params": "[\"goblin-threat\",\"Goblin Threat\",\"Eliminate the goblin threat in the nearby cave. Kill 5 goblins.\",\"KILL\",3,2,200,50,\"town-guard\",true,\"2025-09-09 18:25:24.379 UTC\"]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"quests\".\"id\", \"public\".\"quests\".\"title\", \"public\".\"quests\".\"description\", \"public\".\"quests\".\"type\"::text, \"public\".\"quests\".\"level\", \"public\".\"quests\".\"levelRequired\", \"public\".\"quests\".\"prerequisiteQuestId\", \"public\".\"quests\".\"expReward\", \"public\".\"quests\".\"goldReward\", \"public\".\"quests\".\"giveNPCId\", \"public\".\"quests\".\"turnInNPCId\", \"public\".\"quests\".\"isActive\", \"public\".\"quests\".\"createdAt\" FROM \"public\".\"quests\" WHERE \"public\".\"quests\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"welcome-quest\",1,0]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"quests\".\"id\", \"public\".\"quests\".\"title\", \"public\".\"quests\".\"description\", \"public\".\"quests\".\"type\"::text, \"public\".\"quests\".\"level\", \"public\".\"quests\".\"levelRequired\", \"public\".\"quests\".\"prerequisiteQuestId\", \"public\".\"quests\".\"expReward\", \"public\".\"quests\".\"goldReward\", \"public\".\"quests\".\"giveNPCId\", \"public\".\"quests\".\"turnInNPCId\", \"public\".\"quests\".\"isActive\", \"public\".\"quests\".\"createdAt\" FROM \"public\".\"quests\" WHERE \"public\".\"quests\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"goblin-threat\",1,0]",
+  "duration": "6ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [INFO]: Created 2 quests
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [INFO]: Creating chat channels...
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"chat_channels\".\"id\" FROM \"public\".\"chat_channels\" WHERE (\"public\".\"chat_channels\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"global\",0]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"chat_channels\".\"id\" FROM \"public\".\"chat_channels\" WHERE (\"public\".\"chat_channels\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"system\",0]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"chat_channels\".\"id\" FROM \"public\".\"chat_channels\" WHERE (\"public\".\"chat_channels\".\"id\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"local\",0]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"chat_channels\" (\"id\",\"name\",\"type\",\"isActive\",\"createdAt\") VALUES ($1,$2,CAST($3::text AS \"public\".\"ChannelType\"),$4,$5) RETURNING \"public\".\"chat_channels\".\"id\"",
+  "params": "[\"global\",\"Global\",\"GLOBAL\",true,\"2025-09-09 18:25:24.406 UTC\"]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"chat_channels\" (\"id\",\"name\",\"type\",\"isActive\",\"createdAt\") VALUES ($1,$2,CAST($3::text AS \"public\".\"ChannelType\"),$4,$5) RETURNING \"public\".\"chat_channels\".\"id\"",
+  "params": "[\"system\",\"System\",\"SYSTEM\",true,\"2025-09-09 18:25:24.406 UTC\"]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"chat_channels\" (\"id\",\"name\",\"type\",\"isActive\",\"createdAt\") VALUES ($1,$2,CAST($3::text AS \"public\".\"ChannelType\"),$4,$5) RETURNING \"public\".\"chat_channels\".\"id\"",
+  "params": "[\"local\",\"Local\",\"LOCAL\",true,\"2025-09-09 18:25:24.406 UTC\"]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"chat_channels\".\"id\", \"public\".\"chat_channels\".\"name\", \"public\".\"chat_channels\".\"type\"::text, \"public\".\"chat_channels\".\"isActive\", \"public\".\"chat_channels\".\"createdAt\" FROM \"public\".\"chat_channels\" WHERE \"public\".\"chat_channels\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"global\",1,0]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"chat_channels\".\"id\", \"public\".\"chat_channels\".\"name\", \"public\".\"chat_channels\".\"type\"::text, \"public\".\"chat_channels\".\"isActive\", \"public\".\"chat_channels\".\"createdAt\" FROM \"public\".\"chat_channels\" WHERE \"public\".\"chat_channels\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"local\",1,0]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"chat_channels\".\"id\", \"public\".\"chat_channels\".\"name\", \"public\".\"chat_channels\".\"type\"::text, \"public\".\"chat_channels\".\"isActive\", \"public\".\"chat_channels\".\"createdAt\" FROM \"public\".\"chat_channels\" WHERE \"public\".\"chat_channels\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"system\",1,0]",
+  "duration": "6ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "6ms"
+}
+2025-09-09 18:25:24 [INFO]: Created 3 chat channels
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [INFO]: Creating game configuration...
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"game_config\".\"id\" FROM \"public\".\"game_config\" WHERE (\"public\".\"game_config\".\"key\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"guild_creation_cost\",0]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"game_config\".\"id\" FROM \"public\".\"game_config\" WHERE (\"public\".\"game_config\".\"key\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"max_level\",0]",
+  "duration": "8ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"game_config\".\"id\" FROM \"public\".\"game_config\" WHERE (\"public\".\"game_config\".\"key\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"starting_gold\",0]",
+  "duration": "8ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"game_config\" (\"id\",\"key\",\"value\",\"description\",\"category\",\"updatedAt\") VALUES ($1,$2,$3,$4,$5,$6) RETURNING \"public\".\"game_config\".\"id\"",
+  "params": "[\"cmfcvs89g0001kt49cvct3nb1\",\"guild_creation_cost\",\"1000\",\"Gold cost to create a guild\",\"guild\",\"2025-09-09 18:25:24.437 UTC\"]",
+  "duration": "6ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"game_config\" (\"id\",\"key\",\"value\",\"description\",\"category\",\"updatedAt\") VALUES ($1,$2,$3,$4,$5,$6) RETURNING \"public\".\"game_config\".\"id\"",
+  "params": "[\"cmfcvs89g0000kt497yzonah2\",\"starting_gold\",\"100\",\"Starting gold for new characters\",\"character\",\"2025-09-09 18:25:24.437 UTC\"]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"game_config\".\"id\", \"public\".\"game_config\".\"key\", \"public\".\"game_config\".\"value\", \"public\".\"game_config\".\"description\", \"public\".\"game_config\".\"category\", \"public\".\"game_config\".\"updatedAt\" FROM \"public\".\"game_config\" WHERE \"public\".\"game_config\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"cmfcvs89g0001kt49cvct3nb1\",1,0]",
+  "duration": "2ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"game_config\" (\"id\",\"key\",\"value\",\"description\",\"category\",\"updatedAt\") VALUES ($1,$2,$3,$4,$5,$6) RETURNING \"public\".\"game_config\".\"id\"",
+  "params": "[\"cmfcvs89i0002kt49ll19wdwv\",\"max_level\",\"100\",\"Maximum character level\",\"character\",\"2025-09-09 18:25:24.438 UTC\"]",
+  "duration": "7ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"game_config\".\"id\", \"public\".\"game_config\".\"key\", \"public\".\"game_config\".\"value\", \"public\".\"game_config\".\"description\", \"public\".\"game_config\".\"category\", \"public\".\"game_config\".\"updatedAt\" FROM \"public\".\"game_config\" WHERE \"public\".\"game_config\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"cmfcvs89i0002kt49ll19wdwv\",1,0]",
+  "duration": "1ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"game_config\".\"id\", \"public\".\"game_config\".\"key\", \"public\".\"game_config\".\"value\", \"public\".\"game_config\".\"description\", \"public\".\"game_config\".\"category\", \"public\".\"game_config\".\"updatedAt\" FROM \"public\".\"game_config\" WHERE \"public\".\"game_config\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"cmfcvs89g0000kt497yzonah2\",1,0]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "BEGIN",
+  "params": "[]",
+  "duration": "3ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "5ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"game_config\".\"id\" FROM \"public\".\"game_config\" WHERE (\"public\".\"game_config\".\"key\" = $1 AND 1=1) OFFSET $2",
+  "params": "[\"pvp_enabled\",0]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "INSERT INTO \"public\".\"game_config\" (\"id\",\"key\",\"value\",\"description\",\"category\",\"updatedAt\") VALUES ($1,$2,$3,$4,$5,$6) RETURNING \"public\".\"game_config\".\"id\"",
+  "params": "[\"cmfcvs8a10003kt49vxfb3sc8\",\"pvp_enabled\",\"true\",\"Whether PvP is enabled globally\",\"gameplay\",\"2025-09-09 18:25:24.439 UTC\"]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "SELECT \"public\".\"game_config\".\"id\", \"public\".\"game_config\".\"key\", \"public\".\"game_config\".\"value\", \"public\".\"game_config\".\"description\", \"public\".\"game_config\".\"category\", \"public\".\"game_config\".\"updatedAt\" FROM \"public\".\"game_config\" WHERE \"public\".\"game_config\".\"id\" = $1 LIMIT $2 OFFSET $3",
+  "params": "[\"cmfcvs8a10003kt49vxfb3sc8\",1,0]",
+  "duration": "0ms"
+}
+2025-09-09 18:25:24 [DEBUG]: Prisma Query
+{
+  "service": "rpg-server",
+  "query": "COMMIT",
+  "params": "[]",
+  "duration": "4ms"
+}
+2025-09-09 18:25:24 [INFO]: Created 4 configuration entries
+{
+  "service": "rpg-server"
+}
+2025-09-09 18:25:24 [INFO]: ✅ Database seed completed successfully!
+{
+  "service": "rpg-server"
+}

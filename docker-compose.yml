@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: rpg_postgres
+    environment:
+      POSTGRES_DB: rpg_db
+      POSTGRES_USER: rpg_user  
+      POSTGRES_PASSWORD: rpg_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - rpg_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rpg_user -d rpg_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    container_name: rpg_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - rpg_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: rpg_server
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://rpg_user:rpg_password@postgres:5432/rpg_db
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=development
+      - PORT=5000
+      - CORS_ORIGIN=http://localhost:3000
+    volumes:
+      - ./server/src:/app/src
+      - ./server/logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - rpg_network
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: rpg_client
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000/api
+      - REACT_APP_WS_URL=http://localhost:5000
+    volumes:
+      - ./client/src:/app/src
+      - ./client/public:/app/public
+    depends_on:
+      - server
+    networks:
+      - rpg_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  rpg_network:
+    driver: bridge
