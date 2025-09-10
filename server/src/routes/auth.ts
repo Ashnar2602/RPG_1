@@ -1,38 +1,52 @@
-import { Router } from 'express'
-import { AuthController, registerValidation, loginValidation } from '@/controllers/AuthController'
-import { validate } from '@/middleware/validation'
-import { authenticate } from '@/middleware/auth'
-import { authLimiter } from '@/middleware/rateLimiter'
+import { Router } from 'express';
+import * as authController from '../controllers/auth/authController.js';
+import { authenticateToken, authRateLimit } from '../middleware/auth.js';
 
-const router = Router()
+const router = Router();
 
-// Public routes (with rate limiting)
-router.post('/register', 
-  authLimiter,
-  registerValidation,
-  validate(registerValidation),
-  AuthController.register
-)
+// Apply rate limiting to all auth routes
+router.use(authRateLimit);
 
-router.post('/login',
-  authLimiter,
-  loginValidation,
-  validate(loginValidation),
-  AuthController.login
-)
+/**
+ * @route POST /api/auth/register
+ * @desc Register a new user
+ * @access Public
+ */
+router.post('/register', authController.register);
 
-router.post('/refresh-token',
-  authLimiter,
-  AuthController.refreshToken
-)
+/**
+ * @route POST /api/auth/login
+ * @desc Login user
+ * @access Public
+ */
+router.post('/login', authController.login);
 
-// Protected routes
-router.use(authenticate)
+/**
+ * @route POST /api/auth/refresh
+ * @desc Refresh access token
+ * @access Public
+ */
+router.post('/refresh', authController.refreshToken);
 
-router.post('/logout', AuthController.logout)
-router.get('/profile', AuthController.getProfile)
-router.put('/profile', AuthController.updateProfile)
-router.put('/change-password', AuthController.changePassword)
-router.get('/session', AuthController.getSession)
+/**
+ * @route GET /api/auth/profile
+ * @desc Get user profile
+ * @access Private
+ */
+router.get('/profile', authenticateToken, authController.getProfile);
 
-export default router
+/**
+ * @route POST /api/auth/change-password
+ * @desc Change user password
+ * @access Private
+ */
+router.post('/change-password', authenticateToken, authController.changePassword);
+
+/**
+ * @route POST /api/auth/logout
+ * @desc Logout user
+ * @access Private
+ */
+router.post('/logout', authenticateToken, authController.logout);
+
+export default router;

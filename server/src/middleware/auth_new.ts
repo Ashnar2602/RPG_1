@@ -8,7 +8,7 @@ declare global {
   namespace Express {
     interface Request {
       user?: {
-        id: string;
+        userId: string;
         username: string;
         email: string;
       };
@@ -48,7 +48,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
       }
 
       req.user = {
-        id: user.id,
+        userId: user.id,
         username: user.username,
         email: user.email
       };
@@ -87,7 +87,7 @@ export const optionalAuth = async (req: Request, res: Response, next: NextFuncti
 
         if (user && user.isActive) {
           req.user = {
-            id: user.id,
+            userId: user.id,
             username: user.username,
             email: user.email
           };
@@ -149,7 +149,7 @@ export const requireAdmin = async (req: Request, res: Response, next: NextFuncti
     }
 
     const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
+      where: { id: req.user.userId },
       select: { role: true }
     });
 
