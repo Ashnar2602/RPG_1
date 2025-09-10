@@ -19,6 +19,7 @@ model User {
   email         String   @unique
   username      String   @unique
   password      String
+  role          UserRole @default(PLAYER)
   isActive      Boolean  @default(true)
   isOnline      Boolean  @default(false)
   lastLogin     DateTime?
@@ -505,6 +506,13 @@ model GuildMember {
   guild         Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
   
   @@map("guild_members")
+}
+
+enum UserRole {
+  PLAYER
+  MODERATOR
+  ADMIN
+  SUPER_ADMIN
 }
 
 enum GuildRole {
