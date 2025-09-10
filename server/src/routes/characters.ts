@@ -1,37 +1,31 @@
 import { Router } from 'express'
-import { CharacterController, createCharacterValidation, updateCharacterValidation } from '@/controllers/CharacterController'
-import { validate } from '@/middleware/validation'
-import { authenticate } from '@/middleware/auth'
-import { creationLimiter } from '@/middleware/rateLimiter'
+import { CharacterController, createCharacterValidation, updateCharacterValidation } from '../controllers/CharacterController.js'
+import { authenticateToken } from '../middleware/auth.js'
 
 const router = Router()
 
-// All character routes require authentication
-router.use(authenticate)
-
 // Character CRUD operations
 router.post('/',
-  creationLimiter,
-  createCharacterValidation,
-  validate(createCharacterValidation),
+  authenticateToken,
+  ...createCharacterValidation,
   CharacterController.createCharacter
 )
 
-router.get('/', CharacterController.getUserCharacters)
-router.get('/active', CharacterController.getActiveCharacter)
+router.get('/', authenticateToken, CharacterController.getUserCharacters)
+router.get('/active', authenticateToken, CharacterController.getActiveCharacter)
 
-router.get('/:characterId', CharacterController.getCharacterDetails)
-router.get('/:characterId/stats', CharacterController.getCharacterStats)
+router.get('/:characterId', authenticateToken, CharacterController.getCharacterDetails)
+router.get('/:characterId/stats', authenticateToken, CharacterController.getCharacterStats)
 
 router.put('/:characterId',
-  updateCharacterValidation,
-  validate(updateCharacterValidation),
+  authenticateToken,
+  ...updateCharacterValidation,
   CharacterController.updateCharacter
 )
 
-router.delete('/:characterId', CharacterController.deleteCharacter)
+router.delete('/:characterId', authenticateToken, CharacterController.deleteCharacter)
 
 // Character actions
-router.post('/:characterId/login', CharacterController.loginCharacter)
+router.post('/:characterId/login', authenticateToken, CharacterController.loginCharacter)
 
 export default router

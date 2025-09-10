@@ -17,7 +17,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="min-h-screen bg-cosmic-dark text-cosmic-light">
+        <div className="min-h-screen bg-slate-900 text-white">
           <Routes>
             {/* Public routes */}
             <Route path="/auth" element={<AuthPage />} />

@@ -1,0 +1,7 @@
+2025-09-11 00:17:15 [ERROR]: Create character error: No starting location found
+Error: No starting location found
+    at Function.createCharacter (G:\Coding\RPG_Test\RPG_1\server\src\services\CharacterService.ts:46:15)
+    at async createCharacter (G:\Coding\RPG_Test\RPG_1\server\src\controllers\CharacterController.ts:67:22)
+{
+  "service": "rpg-server"
+}

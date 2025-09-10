@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import { apiRateLimit } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
+import charactersRoutes from './routes/characters.js';
 import { prisma } from './utils/prisma.js';
 
 const app = express();
@@ -49,6 +50,7 @@ app.get('/health', async (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/characters', charactersRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
