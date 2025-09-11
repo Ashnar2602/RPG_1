@@ -5,3 +5,47 @@ Error: No starting location found
 {
   "service": "rpg-server"
 }
+2025-09-11 17:10:33 [ERROR]: Redis SET error for key user:active_character:cmffe6dls0000mmlyxno44af7: The client is closed
+Error: The client is closed
+    at Commander._RedisClient_sendCommand (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\client\index.js:520:31)
+    at Commander.commandsExecutor (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\client\index.js:190:154)
+    at BaseClass.<computed> [as setEx] (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\commander.js:8:29)
+    at Object.set (G:\Coding\RPG_Test\RPG_1\server\src\utils\redis.ts:44:21)
+    at Function.loginCharacter (G:\Coding\RPG_Test\RPG_1\server\src\services\CharacterService.ts:335:24)
+    at async loginCharacter (G:\Coding\RPG_Test\RPG_1\server\src\controllers\CharacterController.ts:215:22)
+{
+  "service": "rpg-server"
+}
+2025-09-11 17:10:33 [ERROR]: Character login error: The client is closed
+Error: The client is closed
+    at Commander._RedisClient_sendCommand (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\client\index.js:520:31)
+    at Commander.commandsExecutor (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\client\index.js:190:154)
+    at BaseClass.<computed> [as setEx] (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\commander.js:8:29)
+    at Object.set (G:\Coding\RPG_Test\RPG_1\server\src\utils\redis.ts:44:21)
+    at Function.loginCharacter (G:\Coding\RPG_Test\RPG_1\server\src\services\CharacterService.ts:335:24)
+    at async loginCharacter (G:\Coding\RPG_Test\RPG_1\server\src\controllers\CharacterController.ts:215:22)
+{
+  "service": "rpg-server"
+}
+2025-09-11 17:10:37 [ERROR]: Redis SET error for key user:active_character:cmffe6dls0000mmlyxno44af7: The client is closed
+Error: The client is closed
+    at Commander._RedisClient_sendCommand (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\client\index.js:520:31)
+    at Commander.commandsExecutor (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\client\index.js:190:154)
+    at BaseClass.<computed> [as setEx] (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\commander.js:8:29)
+    at Object.set (G:\Coding\RPG_Test\RPG_1\server\src\utils\redis.ts:44:21)
+    at Function.loginCharacter (G:\Coding\RPG_Test\RPG_1\server\src\services\CharacterService.ts:335:24)
+    at async loginCharacter (G:\Coding\RPG_Test\RPG_1\server\src\controllers\CharacterController.ts:215:22)
+{
+  "service": "rpg-server"
+}
+2025-09-11 17:10:37 [ERROR]: Character login error: The client is closed
+Error: The client is closed
+    at Commander._RedisClient_sendCommand (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\client\index.js:520:31)
+    at Commander.commandsExecutor (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\client\index.js:190:154)
+    at BaseClass.<computed> [as setEx] (G:\Coding\RPG_Test\RPG_1\node_modules\@redis\client\dist\lib\commander.js:8:29)
+    at Object.set (G:\Coding\RPG_Test\RPG_1\server\src\utils\redis.ts:44:21)
+    at Function.loginCharacter (G:\Coding\RPG_Test\RPG_1\server\src\services\CharacterService.ts:335:24)
+    at async loginCharacter (G:\Coding\RPG_Test\RPG_1\server\src\controllers\CharacterController.ts:215:22)
+{
+  "service": "rpg-server"
+}

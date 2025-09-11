@@ -10,9 +10,11 @@ interface Character {
   baseHealth: number;
 }
 
-interface AuthPageProps {}
+interface AuthPageProps {
+  onAuthSuccess?: () => void;
+}
 
-export const AuthPage: React.FC<AuthPageProps> = () => {
+export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
   const [currentScreen, setCurrentScreen] = useState<'auth' | 'characters' | 'create-character'>('auth');
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -40,7 +42,7 @@ export const AuthPage: React.FC<AuthPageProps> = () => {
 
   const loadCharacters = async (authToken: string) => {
     try {
-      const response = await fetch('http://localhost:5000/api/characters', {
+      const response = await fetch('http://localhost:3001/api/characters', {
         headers: {
           'Authorization': `Bearer ${authToken}`,
         },
@@ -67,27 +69,48 @@ export const AuthPage: React.FC<AuthPageProps> = () => {
       : formData;
 
     try {
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const url = `http://localhost:3001${endpoint}`;
+      console.log('🌐 Making API call to:', url);
+      console.log('📦 Payload:', payload);
+      
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload)
       });
+      
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response ok:', response.ok);
 
       const data = await response.json();
+      console.log('📊 Response data:', data);
       
       if (data.success) {
         const authToken = data.data.token;
         localStorage.setItem('token', authToken);
         localStorage.setItem('refreshToken', data.data.refreshToken);
+        localStorage.setItem('username', data.data.user?.username || formData.username);
         setToken(authToken);
         setMessage(isLogin ? 'Login successful!' : 'Registration successful!');
-        await loadCharacters(authToken);
+        
+        // Notify parent to redirect to character manager
+        if (onAuthSuccess) {
+          onAuthSuccess();
+        }
       } else {
         setMessage(data.error || 'Authentication failed');
       }
     } catch (error) {
+      console.error('❌ Auth error:', error);
+      if (error instanceof Error) {
+        console.error('❌ Error details:', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        });
+      }
       setMessage('Network error occurred');
     } finally {
       setIsLoading(false);
@@ -100,7 +123,7 @@ export const AuthPage: React.FC<AuthPageProps> = () => {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/characters', {
+      const response = await fetch('http://localhost:3001/api/characters', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +154,7 @@ export const AuthPage: React.FC<AuthPageProps> = () => {
 
   const handleSelectCharacter = async (characterId: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/characters/${characterId}/login`, {
+      const response = await fetch(`http://localhost:3001/api/characters/${characterId}/login`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -141,7 +164,10 @@ export const AuthPage: React.FC<AuthPageProps> = () => {
       const data = await response.json();
       if (data.success) {
         setMessage('Character selected! Welcome to the game!');
-        // Here you would typically redirect to the main game interface
+        localStorage.setItem('selectedCharacterId', characterId);
+        if (onAuthSuccess) {
+          onAuthSuccess();
+        }
       } else {
         setMessage('Failed to select character');
       }

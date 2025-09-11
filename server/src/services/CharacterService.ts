@@ -331,12 +331,12 @@ export class CharacterService {
         data: { lastLogin: new Date() }
       })
 
-      // Cache active character
-      await redisUtils.set(
-        `user:active_character:${userId}`,
-        characterId,
-        config.sessionTimeout / 1000
-      )
+      // TODO: Cache active character in Redis when available
+      // await redisUtils.set(
+      //   `user:active_character:${userId}`,
+      //   characterId,
+      //   config.sessionTimeout / 1000
+      // )
 
       logger.info(`Character login: ${character.name} (${characterId})`)
 

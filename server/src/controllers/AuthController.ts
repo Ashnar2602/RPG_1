@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { body } from 'express-validator'
 import { AuthService } from '@/services/AuthService'
-import { logout as logoutToken, refreshToken } from '@/middleware/auth'
+
 import logger from '@/utils/logger'
 
 // Validation rules
@@ -27,13 +27,17 @@ export const registerValidation = [
 ]
 
 export const loginValidation = [
-  body('email')
-    .isEmail()
-    .normalizeEmail()
-    .withMessage('Please provide a valid email'),
   body('password')
     .notEmpty()
-    .withMessage('Password is required')
+    .withMessage('Password is required'),
+  // Either email or username is required
+  body().custom((value, { req }) => {
+    const { email, username } = req.body;
+    if (!email && !username) {
+      throw new Error('Either email or username is required');
+    }
+    return true;
+  })
 ]
 
 export class AuthController {
@@ -66,10 +70,11 @@ export class AuthController {
   // Login user
   static async login(req: Request, res: Response) {
     try {
-      const { email, password } = req.body
+      const { email, username, password } = req.body
 
       const result = await AuthService.login({
         email,
+        username,
         password,
       })
 
@@ -94,9 +99,10 @@ export class AuthController {
       const authHeader = req.headers.authorization
       const token = authHeader?.split(' ')[1]
 
-      if (token) {
-        await logoutToken(token)
-      }
+      // TODO: Implement token blacklisting
+      // if (token) {
+      //   await logoutToken(token)
+      // }
 
       if (req.user) {
         await AuthService.logout(req.user.id)
@@ -225,7 +231,7 @@ export class AuthController {
         })
       }
 
-      const result = await refreshToken(refreshTokenString)
+      const result = await AuthService.refreshToken(refreshTokenString)
 
       if (result) {
         res.status(200).json({

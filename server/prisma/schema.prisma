@@ -36,6 +36,7 @@ model User {
   friends       Friend[] @relation("UserFriends")
   friendOf      Friend[] @relation("FriendOfUser")
   chatMessages  ChatMessage[]
+  preferences   UserPreferences?
   
   @@map("users")
 }
@@ -48,23 +49,26 @@ model Character {
   id            String   @id @default(cuid())
   userId        String
   name          String   @unique
+  background    String?  // Character bio/story
   race          CharacterRace
   characterClass CharacterClass @map("class")
+  alignment     String   @default("NN") // LG, LN, LE, NG, NN, NE, CG, CN, CE
   level         Int      @default(1)
   experience    Int      @default(0)
   
-  // Core Stats (Base)
+  // Core Stats (Calculated)
   baseHealth    Int      @default(100)
   baseMana      Int      @default(50)
-  baseStamina   Int      @default(100)
+  basePower     Float    @default(10.0)
   
-  // Primary Attributes
+  // Primary Attributes (7 stats system)
   strength      Int      @default(10)
-  agility       Int      @default(10)
   intelligence  Int      @default(10)
-  vitality      Int      @default(10)
-  wisdom        Int      @default(10)
+  dexterity     Int      @default(10)
+  willpower     Int      @default(10)
   charisma      Int      @default(10)
+  luck          Int      @default(10)
+  stamina       Int      @default(10)
   
   // Current State
   currentHealth Int      @default(100)
@@ -96,6 +100,9 @@ model Character {
   questProgress QuestProgress[]
   combatLogs    CombatLog[]
   chatMessages  ChatMessage[]
+  traits        CharacterTrait[]
+  avatar        CharacterAvatar?
+  personality   CharacterPersonality?
   
   @@map("characters")
 }
@@ -115,16 +122,19 @@ enum CharacterRace {
 }
 
 enum CharacterClass {
-  WARRIOR     // Guerriero
-  MAGE        // Mago
-  ROGUE       // Ladro
-  CLERIC      // Chierico
-  RANGER      // Ranger
-  PALADIN     // Paladino
-  WARLOCK     // Warlock
-  BARD        // Bardo
-  MONK        // Monaco
-  BARBARIAN   // Barbaro
+  GUERRIERO   // Guerriero - Tank/DPS fisico
+  MAGO        // Mago - DPS magico/controllo  
+  FURFANTE    // Furfante - Stealth/critici
+  
+  // Advanced Classes (unlockable)
+  PALADINO    // Paladino - Santo guerriero
+  ASSASSINO   // Assassino - Ombra letale
+  ARCIMAGO    // Arcimago - Maestro magia
+  ELEMENTALISTA // Elementalista - Signore elementi
+  RANGER      // Ranger - Guardiano natura
+  MONACO      // Monaco - Guerriero interiore
+  WARLOCK     // Warlock - Patto oscuro
+  BARDO       // Bardo - Narratore magico
 }
 
 // ==========================================
@@ -630,4 +640,75 @@ model GameConfig {
   updatedAt     DateTime @updatedAt
   
   @@map("game_config")
+}
+
+// ==========================================
+// CHARACTER CUSTOMIZATION EXTENSIONS
+// ==========================================
+
+model CharacterTrait {
+  id            String   @id @default(cuid())
+  characterId   String
+  traitType     TraitType
+  traitName     String
+  description   String?
+  effect        String?
+  isActive      Boolean  @default(true)
+  
+  // Relations
+  character     Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  
+  @@map("character_traits")
+}
+
+enum TraitType {
+  RACIAL      // From race
+  CLASS       // From class
+  SELECTED    // Player chosen
+  ACQUIRED    // Gained in game
+}
+
+model CharacterAvatar {
+  id            String   @id @default(cuid())
+  characterId   String   @unique
+  race          CharacterRace
+  avatarData    Json     // All customization options
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  character     Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  
+  @@map("character_avatars")
+}
+
+model CharacterPersonality {
+  id                String   @id @default(cuid())
+  characterId       String   @unique
+  personalityTraits String[] // Array of personality tags
+  motivations       String[] // Primary motivations
+  fears             String[] // Character fears
+  playstyles        String[] // Preferred gameplay styles
+  communicationStyle String[] // How character speaks
+  moralCode         String[] // Character's ethical guidelines
+  createdAt         DateTime @default(now())
+  
+  // Relations
+  character         Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  
+  @@map("character_personality")
+}
+
+model UserPreferences {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  uiTheme       String   @default("classic_fantasy")
+  customColors  Json?    // Custom color preferences
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("user_preferences")
 }

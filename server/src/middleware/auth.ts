@@ -109,7 +109,7 @@ export const optionalAuth = async (req: Request, res: Response, next: NextFuncti
  */
 export const authRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 requests per windowMs
+  max: 100, // Temporarily increased for testing
   message: {
     error: 'Too many authentication attempts, try again later',
     code: 'RATE_LIMIT_AUTH'

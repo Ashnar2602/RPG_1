@@ -123,6 +123,61 @@ Esempio: Skill base danno=10 + STR*1.2
 
 ---
 
+## Tratti — Sistema Completo (Aggiornato)
+
+### **Tratti Razziali** (Automatici - Non Modificabili)
+- **UMANI**: "Adattabilità" - +10% XP guadagnato
+- **ELFI**: "Vista Elfica" - +15% precisione a distanza  
+- **NANI**: "Costituzione Ferrea" - +20% resistenza veleni/malattie
+- **ORCHI**: "Furia Orchesca" - +25% danno quando sotto 30% HP
+- **TROLL**: "Rigenerazione" - +2 HP/turno in combattimento
+- **GNOMI**: "Genio Inventivo" - +20% efficacia crafting magico
+- **AERATHI**: "Volo Planato" - Può planare per brevi distanze
+- **GUOLGARN**: "Vista Sotterranea" - Visione perfetta al buio
+- **ZARKAAN**: "Resistenza Desertica" - Immune a caldo estremo
+- **UOMINI PESCE**: "Respirazione Acquatica" - Respira sott'acqua
+- **UOMINI LUCERTOLA**: "Mimetismo Ambientale" - +25% stealth in ambienti naturali
+
+### **Tratti di Classe** (Automatici - 2 per Classe)
+
+#### **GUERRIERO**:
+- "Padronanza Armi" - +10% danno armi da mischia
+- "Difesa Solida" - +15% resistenza con scudo
+
+#### **MAGO**:
+- "Condotto Arcano" - -15% costo MP incantesimi
+- "Concentrazione" - +20% precisione incantesimi
+
+#### **FURFANTE**:
+- "Colpo Furtivo" - +30% probabilità critico da stealth
+- "Passo Silenzioso" - +25% efficacia stealth
+
+### **Tratti Selezionabili** (2 Scelti alla Creazione - Lista 20)
+1. **Resistente** — +5% HP massimi
+2. **Mani Veloci** — -10% tempo uso oggetti / +1 azione bonus condizionale
+3. **Tiratore Scelto** — +5% precisione armi a distanza
+4. **Baluardo** — +5% difesa quando scudo equipaggiato
+5. **Recupero Rapido** — +10% rigenerazione fuori combattimento
+6. **Furtivo** — +10% efficacia stealth
+7. **Lama Affilata** — +5% probabilità critico
+8. **Ingegnoso** — +10% drop rate risorse
+9. **Alchimista** — +10% efficacia pozioni
+10. **Domatore** — +10% capacità cavalcatura
+11. **Presa Salda** — +5% capacità di carico
+12. **Apprendista Veloce** — +5% guadagno XP
+13. **Portafortuna** — +3% bonus Fortuna generale
+14. **Tocco Curativo** — +10% efficacia cure
+15. **Specialista Trappole** — +15% danno/efficacia trappole
+16. **Economista** — -10% costo MP incantesimi
+17. **Occhio di Falco** — +15% range visivo
+18. **Nervi Saldi** — +10% resistenza effetti mentali
+19. **Esploratore** — +20% velocità movimento
+20. **Diplomatico** — +15% successo in negoziazioni
+
+**Regole**: 2 tratti selezionabili alla creazione (irrevocabili), fino a 5 totali acquisibili in gioco tramite avanzamento.
+
+---
+
 ## Talenti — lista iniziale (20)
 1. Hardy — +5% HP max
 2. Quick Hands — -10% item use time / +1 azione bonus condizionale

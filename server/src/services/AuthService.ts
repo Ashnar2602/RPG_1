@@ -1,12 +1,11 @@
 import bcrypt from 'bcryptjs'
-import prisma from '@/utils/database'
-import { generateToken, generateRefreshToken } from '@/middleware/auth'
-import logger from '@/utils/logger'
-import config from '@/config'
-import { redisUtils } from '@/utils/redis'
+import jwt from 'jsonwebtoken'
+import { prisma } from '../utils/prisma.js'
+import logger from '../utils/logger.js'
 
 interface LoginCredentials {
-  email: string
+  email?: string
+  username?: string
   password: string
 }
 
@@ -50,7 +49,7 @@ export class AuthService {
       }
 
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, config.bcryptRounds)
+      const hashedPassword = await bcrypt.hash(password, 12)
 
       // Create user
       const user = await prisma.user.create({
@@ -70,29 +69,33 @@ export class AuthService {
       })
 
       // Generate tokens
-      const token = generateToken({
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      })
-
-      const refreshToken = generateRefreshToken({
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      })
-
-      // Cache user session
-      await redisUtils.set(
-        `user:session:${user.id}`,
-        JSON.stringify({
-          id: user.id,
-          email: user.email,
+      const token = jwt.sign(
+        {
+          userId: user.id,
           username: user.username,
-          loginTime: new Date().toISOString(),
-        }),
-        config.sessionTimeout / 1000
+          email: user.email,
+        },
+        process.env.JWT_SECRET || 'secret',
+        { expiresIn: '24h' }
       )
+
+      const refreshToken = jwt.sign(
+        { userId: user.id, username: user.username },
+        process.env.JWT_REFRESH_SECRET || 'refresh-secret',
+        { expiresIn: '7d' }
+      )
+
+      // TODO: Cache user session in Redis when available
+      // await redisUtils.set(
+      //   `user:session:${user.id}`,
+      //   JSON.stringify({
+      //     id: user.id,
+      //     email: user.email, 
+      //     username: user.username,
+      //     loginTime: new Date().toISOString(),
+      //   }),
+      //   config.sessionTimeout / 1000
+      // )
 
       logger.info(`New user registered: ${user.username} (${user.email})`)
 
@@ -116,21 +119,37 @@ export class AuthService {
   // Login user
   static async login(credentials: LoginCredentials): Promise<AuthResult> {
     try {
-      const { email, password } = credentials
+      const { email, username, password } = credentials
 
-      // Find user
-      const user = await prisma.user.findUnique({
-        where: { email: email.toLowerCase() },
-        select: {
-          id: true,
-          email: true,
-          username: true,
-          password: true,
-          isActive: true,
-          isPremium: true,
-          createdAt: true,
-        }
-      })
+      // Find user by email or username
+      let user;
+      if (email) {
+        user = await prisma.user.findUnique({
+          where: { email: email.toLowerCase() },
+          select: {
+            id: true,
+            email: true,
+            username: true,
+            password: true,
+            isActive: true,
+            isPremium: true,
+            createdAt: true,
+          }
+        });
+      } else if (username) {
+        user = await prisma.user.findUnique({
+          where: { username: username.toLowerCase() },
+          select: {
+            id: true,
+            email: true,
+            username: true,
+            password: true,
+            isActive: true,
+            isPremium: true,
+            createdAt: true,
+          }
+        });
+      }
 
       if (!user) {
         return {
@@ -166,29 +185,34 @@ export class AuthService {
       })
 
       // Generate tokens
-      const token = generateToken({
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      })
-
-      const refreshToken = generateRefreshToken({
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      })
-
-      // Cache user session
-      await redisUtils.set(
-        `user:session:${user.id}`,
-        JSON.stringify({
-          id: user.id,
-          email: user.email,
+      const token = jwt.sign(
+        {
+          userId: user.id,
           username: user.username,
-          loginTime: new Date().toISOString(),
-        }),
-        config.sessionTimeout / 1000
+          email: user.email,
+          isPremium: user.isPremium,
+        },
+        process.env.JWT_SECRET || 'secret',
+        { expiresIn: '24h' }
       )
+
+      const refreshToken = jwt.sign(
+        { userId: user.id, username: user.username },
+        process.env.JWT_REFRESH_SECRET || 'refresh-secret',
+        { expiresIn: '7d' }
+      )
+
+      // TODO: Cache user session in Redis when available
+      // await redisUtils.set(
+      //   `user:session:${user.id}`,
+      //   JSON.stringify({
+      //     id: user.id,
+      //     email: user.email,
+      //     username: user.username,
+      //     loginTime: new Date().toISOString(),
+      //   }),
+      //   config.sessionTimeout / 1000
+      // )
 
       // Remove password from response
       const { password: _, ...userWithoutPassword } = user
@@ -222,7 +246,8 @@ export class AuthService {
       })
 
       // Remove user session from cache
-      await redisUtils.del(`user:session:${userId}`)
+      // TODO: Remove Redis session when available
+      // await redisUtils.del(`user:session:${userId}`)
 
       logger.info(`User logged out: ${userId}`)
       return true
@@ -361,7 +386,7 @@ export class AuthService {
       }
 
       // Hash new password
-      const hashedPassword = await bcrypt.hash(newPassword, config.bcryptRounds)
+      const hashedPassword = await bcrypt.hash(newPassword, 12)
 
       // Update password
       await prisma.user.update({
@@ -391,11 +416,57 @@ export class AuthService {
   // Get user session info from cache
   static async getSessionInfo(userId: string): Promise<any> {
     try {
-      const sessionData = await redisUtils.get(`user:session:${userId}`)
+      // TODO: Get session from Redis when available
+      const sessionData = null // await redisUtils.get(`user:session:${userId}`)
       return sessionData ? JSON.parse(sessionData) : null
     } catch (error) {
       logger.error('Get session info error:', error)
       return null
+    }
+  }
+
+  // Refresh token
+  static async refreshToken(refreshTokenString: string) {
+    try {
+      // For now, implement basic refresh token validation
+      // TODO: Add proper refresh token storage and validation
+      const decoded = jwt.verify(refreshTokenString, process.env.JWT_REFRESH_SECRET || 'refresh-secret') as any;
+      
+      // Find user
+      const user = await prisma.user.findUnique({
+        where: { id: decoded.userId },
+        select: { 
+          id: true, 
+          username: true, 
+          email: true, 
+          isActive: true
+        }
+      });
+
+      if (!user || !user.isActive) {
+        return null;
+      }
+
+      // Generate new tokens
+      const newToken = jwt.sign(
+        { userId: user.id, username: user.username },
+        process.env.JWT_SECRET || 'secret',
+        { expiresIn: '24h' }
+      );
+      
+      const newRefreshToken = jwt.sign(
+        { userId: user.id },
+        process.env.JWT_REFRESH_SECRET || 'refresh-secret',
+        { expiresIn: '7d' }
+      );
+
+      return {
+        token: newToken,
+        refreshToken: newRefreshToken
+      };
+    } catch (error) {
+      logger.error('Refresh token error:', error);
+      return null;
     }
   }
 }
