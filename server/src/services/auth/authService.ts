@@ -25,6 +25,7 @@ export interface AuthResult {
   };
   token?: string;
   refreshToken?: string;
+  isTemporaryPassword?: boolean;
   error?: string;
   errors?: string[];
 }
@@ -131,15 +132,14 @@ export class AuthService {
    */
   static async login(data: LoginData): Promise<AuthResult> {
     try {
-      // Find user by username or email
-      const user = await prisma.user.findFirst({
-        where: {
-          OR: [
-            { username: data.username },
-            { email: data.username } // Allow login with email too
-          ]
-        }
-      });
+      // Find user by username or email (using raw query to access isTemporaryPassword)
+      const users = await prisma.$queryRaw<any[]>`
+        SELECT * FROM users 
+        WHERE username = ${data.username} OR email = ${data.username}
+        LIMIT 1
+      `;
+      
+      const user = users[0] || null;
 
       if (!user) {
         return {
@@ -191,7 +191,8 @@ export class AuthService {
           createdAt: user.createdAt
         },
         token,
-        refreshToken
+        refreshToken,
+        isTemporaryPassword: user.isTemporaryPassword
       };
 
     } catch (error) {
@@ -355,6 +356,141 @@ export class AuthService {
 
     } catch (error) {
       console.error('Change password error:', error);
+      return {
+        success: false,
+        error: 'Internal server error'
+      };
+    }
+  }
+
+  /**
+   * Reset password with temporary password
+   */
+  static async resetPassword(email: string, tempPassword: string): Promise<AuthResult> {
+    try {
+      // Find user by email
+      const user = await prisma.user.findUnique({
+        where: { email }
+      });
+
+      if (!user) {
+        return {
+          success: false,
+          error: 'User not found with this email'
+        };
+      }
+
+      if (!user.isActive) {
+        return {
+          success: false,
+          error: 'Account is disabled'
+        };
+      }
+
+      // Hash temporary password
+      const hashedTempPassword = await AuthUtils.hashPassword(tempPassword);
+
+      // Update user with temporary password and mark it as temporary
+      await prisma.$queryRaw`
+        UPDATE users 
+        SET password = ${hashedTempPassword}, 
+            "isTemporaryPassword" = true, 
+            "updatedAt" = NOW()
+        WHERE id = ${user.id}
+      `;
+
+      return {
+        success: true
+      };
+
+    } catch (error) {
+      console.error('Reset password error:', error);
+      return {
+        success: false,
+        error: 'Internal server error'
+      };
+    }
+  }
+
+  /**
+   * Update temporary password with permanent password
+   */
+  static async updateTempPassword(userId: string, currentTempPassword: string, newPassword: string): Promise<AuthResult> {
+    try {
+      console.log('🔐 UpdateTempPassword called:', { userId, currentTempPassword, newPassword });
+
+      // Validate new password
+      const passwordValidation = AuthUtils.validatePassword(newPassword);
+      if (!passwordValidation.valid) {
+        console.log('❌ Password validation failed:', passwordValidation.errors);
+        return {
+          success: false,
+          errors: passwordValidation.errors
+        };
+      }
+
+      // Get user with raw query to access isTemporaryPassword
+      const users = await prisma.$queryRaw<any[]>`
+        SELECT * FROM users WHERE id = ${userId} LIMIT 1
+      `;
+      
+      const user = users[0];
+      console.log('👤 User found:', { 
+        id: user?.id, 
+        username: user?.username, 
+        isTemporaryPassword: user?.isTemporaryPassword,
+        hasPassword: !!user?.password 
+      });
+
+      if (!user) {
+        console.log('❌ User not found');
+        return {
+          success: false,
+          error: 'User not found'
+        };
+      }
+
+      // Verify current temporary password
+      const isValidPassword = await AuthUtils.verifyPassword(currentTempPassword, user.password);
+      console.log('🔑 Password verification:', { isValidPassword, currentTempPassword });
+      
+      if (!isValidPassword) {
+        console.log('❌ Current temporary password is incorrect');
+        return {
+          success: false,
+          error: 'Current temporary password is incorrect'
+        };
+      }
+
+      // Check if user actually has a temporary password
+      if (!user.isTemporaryPassword) {
+        console.log('❌ User does not have a temporary password flag');
+        return {
+          success: false,
+          error: 'User does not have a temporary password'
+        };
+      }
+
+      // Hash new password
+      const hashedPassword = await AuthUtils.hashPassword(newPassword);
+      console.log('🔐 New password hashed successfully');
+
+      // Update password and remove temporary flag
+      await prisma.$queryRaw`
+        UPDATE users 
+        SET password = ${hashedPassword}, 
+            "isTemporaryPassword" = false, 
+            "updatedAt" = NOW()
+        WHERE id = ${userId}
+      `;
+
+      console.log('✅ Password updated successfully');
+      return {
+        success: true
+      };
+
+    } catch (error) {
+      console.error('❌ Update temp password error:', error);
       return {
         success: false,
         error: 'Internal server error'

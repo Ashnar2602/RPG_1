@@ -49,4 +49,18 @@ router.post('/change-password', authenticateToken, authController.changePassword
  */
 router.post('/logout', authenticateToken, authController.logout);
 
+/**
+ * @route POST /api/auth/reset-password
+ * @desc Reset user password with temporary password
+ * @access Public
+ */
+router.post('/reset-password', authController.resetPassword);
+
+/**
+ * @route POST /api/auth/update-temp-password
+ * @desc Update temporary password with new permanent password
+ * @access Private
+ */
+router.post('/update-temp-password', authenticateToken, authController.updateTempPassword);
+
 export default router;

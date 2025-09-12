@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AIProviderSettings from './AIProviderSettings';
+import { CharacterCreationWizard } from './CharacterCreationWizard';
 
 interface Character {
   id: string;
@@ -33,7 +34,7 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-  const [currentView, setCurrentView] = useState<'characters' | 'ai-settings'>('characters');
+  const [currentView, setCurrentView] = useState<'characters' | 'ai-settings' | 'create-character'>('characters');
   const [aiConfigured, setAiConfigured] = useState(false);
 
   const token = localStorage.getItem('token');
@@ -50,8 +51,9 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
   }, []);
 
   const loadCharacters = async () => {
+    console.log('Loading characters with token:', token ? 'presente' : 'assente');
     if (!token) {
-      setError('No authentication token found');
+      setError('Token di autenticazione non trovato');
       return;
     }
 
@@ -64,7 +66,7 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to load characters: ${response.status}`);
+        throw new Error(`Errore nel caricamento personaggi: ${response.status}`);
       }
 
       const data = await response.json();
@@ -72,10 +74,10 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
       if (data.success) {
         setCharacters(data.data || []);
       } else {
-        throw new Error(data.error || 'Failed to load characters');
+        throw new Error(data.error || 'Errore nel caricamento personaggi');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load characters');
+      setError(err instanceof Error ? err.message : 'Errore nel caricamento personaggi');
     } finally {
       setLoading(false);
     }
@@ -106,8 +108,7 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
   };
 
   const handleCreateCharacter = () => {
-    // TODO: Implement character creation flow
-    alert('Character creation coming soon!');
+    setCurrentView('create-character');
   };
 
   const handleAISettings = () => {
@@ -163,6 +164,30 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
         onBack={() => setCurrentView('characters')}
         onSave={handleAISaved}
       />
+    );
+  }
+
+  // Se siamo nella vista creazione personaggio, mostra il wizard
+  if (currentView === 'create-character') {
+    return (
+      <div className="min-h-screen bg-gray-900">
+        <div className="p-4">
+          <button
+            onClick={() => {
+              setCurrentView('characters');
+              loadCharacters(); // Ricarica personaggi quando torna indietro
+            }}
+            className="mb-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+          >
+            ← Torna ai Personaggi
+          </button>
+        </div>
+        <CharacterCreationWizard onCharacterCreated={() => {
+          console.log('Character created, returning to character list');
+          setCurrentView('characters');
+          loadCharacters();
+        }} />
+      </div>
     );
   }
 
@@ -448,9 +473,9 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
             marginBottom: '30px'
           }}>
             <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🧙‍♂️</div>
-            <h3 style={{ color: '#e2e8f0', marginBottom: '10px' }}>No Characters Yet</h3>
+            <h3 style={{ color: '#e2e8f0', marginBottom: '10px' }}>Nessun Personaggio</h3>
             <p style={{ color: '#9ca3af', marginBottom: '20px' }}>
-              Create your first character to begin your adventure in the world of Ashnar!
+              Crea il tuo primo personaggio per iniziare la tua avventura nel mondo di Ashnar!
             </p>
           </div>
         )}
@@ -474,7 +499,7 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
               margin: '0 auto'
             }}
           >
-            ➕ Create New Character
+            ➕ Crea Nuovo Personaggio
           </button>
         </div>
 
@@ -485,7 +510,7 @@ export const CharacterManager: React.FC<CharacterManagerProps> = ({
           color: '#6b7280',
           fontSize: '0.9rem'
         }}>
-          <p>💡 Tip: You can create up to 6 characters per account</p>
+          <p>💡 Suggerimento: Puoi creare fino a 6 personaggi per account</p>
         </div>
       </div>
     </div>

@@ -70,7 +70,7 @@ function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0f172a', color: 'white' }}>
+    <div style={{ minHeight: '100vh', color: 'white', backgroundColor: '#1a1a1a' }}>
       {/* Navigation - Only show for dashboard and game pages */}
       {isAuthenticated && selectedCharacter && currentPage !== 'character-manager' && (
         <nav style={{ 

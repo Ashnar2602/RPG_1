@@ -1,5 +1,70 @@
 # CHANGELOG - RPG Fantasy MMO "L'Esperimento di Ashnar"
 
+## 🔐 **[AUTHENTICATION SYSTEM ENHANCED] - 12 Settembre 2025**
+
+### ✅ **MAJOR FEATURE: PASSWORD RECOVERY SYSTEM COMPLETO**
+
+#### 🛡️ **Password Recovery & Security**
+- **Password Recovery Flow** completo implementato:
+  - Reset password con generazione codici temporanei (formato MAGIC-3671)
+  - Update password temporanea con validazione sicurezza avanzata
+  - Flag `isTemporaryPassword` per gestione stato utente
+  - Sistema di notifica e guida utente per password requirements
+
+- **Advanced Password Validation**:
+  - Minimo 8 caratteri richiesti
+  - Almeno 1 lettera minuscola (a-z)
+  - Almeno 1 lettera maiuscola (A-Z)  
+  - Almeno 1 numero (0-9)
+  - Almeno 1 carattere speciale (!@#$%^&*)
+
+- **JWT Security Enhancements**:
+  - Issuer validation per tokens ('rpg-server')
+  - Dual AuthService architecture consolidata
+  - Raw SQL queries per accesso campo `isTemporaryPassword`
+
+#### 🎨 **Frontend UX Improvements**
+- **Password Recovery Modal** con interfaccia completa:
+  - Visualizzazione criteri password in tempo reale
+  - Error handling dettagliato con messaggi specifici
+  - Support per multiple validation errors
+  - UI feedback visuale per success/error states
+
+- **User Experience**:
+  - Guida visuale criteri password sotto pulsante "Aggiorna Password"
+  - Messaggi di errore multi-linea per validation failures
+  - Supporto line breaks in error messages (whiteSpace: 'pre-line')
+  - Consistent styling con tema neon/glass effect
+
+#### 🔧 **Backend API Enhancements**
+- **New Endpoints**:
+  - `POST /api/auth/reset-password` - Generazione password temporanea
+  - `POST /api/auth/update-temp-password` - Aggiornamento password permanente
+  - Controller updates per supporto `errors[]` array in responses
+
+- **Service Layer Improvements**:
+  - AuthUtils class per validazioni centralizzate
+  - Password generation con word-number format sicuro
+  - Database schema migration per `isTemporaryPassword` boolean field
+  - Enhanced error responses con validation details
+
+#### 🗄️ **Database Updates**
+- **Schema Migration**: Aggiunto campo `isTemporaryPassword` alla tabella users
+- **Raw SQL Integration**: Query native per accesso campi non mappati in Prisma
+- **Table Name Consistency**: Risolti problemi naming "User" vs "users"
+
+#### 🧪 **Testing & Validation**
+- **Complete Auth Flow** testato: login → temp password → recovery → update
+- **Error Scenarios** validati: invalid passwords, validation failures, auth errors
+- **UI/UX Testing** per tutti gli stati del modal e error handling
+
+#### 📚 **Documentation Updates**
+- README.md aggiornato con nuove features di sicurezza
+- API_DOCUMENTATION.md con endpoints password recovery
+- TECHNICAL_GUIDE.md con flow autenticazione completo
+
+---
+
 ## 🎯 **[CHARACTER SYSTEM COMPLETE] - 11 Settembre 2025**
 
 ### ✅ **MAJOR MILESTONE: SISTEMA GESTIONE PERSONAGGI COMPLETO**

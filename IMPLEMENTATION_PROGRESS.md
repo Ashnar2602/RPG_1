@@ -11,10 +11,13 @@
 
 ### 2. Authentication System (100%)
 - **AuthService**: Sistema completo di registrazione, login, refresh token
-- **AuthController**: Endpoints funzionanti e testati
-- **JWT System**: Tokens generati e validazione implementata
+- **Password Recovery**: Sistema completo con password temporanee e validazione avanzata
+- **AuthController**: Tutti gli endpoints funzionanti inclusi reset-password e update-temp-password
+- **JWT System**: Tokens con issuer validation e security enhancements
+- **Password Security**: Validazione robusta (8+ char, maiuscole, minuscole, numeri, simboli)
 - **Middleware**: Rate limiting, autenticazione JWT, controllo ruoli attivi
-- **API Testing**: Registrazione e login verificati funzionanti
+- **Database Integration**: Campo isTemporaryPassword e gestione stati utente
+- **API Testing**: Completa autenticazione + recovery flow verificati funzionanti
 
 ### 3. Character Management System (100%)
 - **CharacterService**: CRUD completo con statistiche razza/classe

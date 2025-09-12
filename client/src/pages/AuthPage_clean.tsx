@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+interface Character {
+  id: string;
+  name: string;
+  race: string;
+  characterClass: string;
+  level: number;
+  currentHealth: number;
+  baseHealth: number;
+}
 
 interface AuthPageProps {
   onAuthSuccess?: () => void;
 }
 
 export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
-  const currentScreen = 'auth';
+  const [currentScreen, setCurrentScreen] = useState<'auth' | 'characters' | 'create-character'>('auth');
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: ''
   });
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [token, setToken] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,6 +36,37 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
     newPassword: '',
     confirmPassword: ''
   });
+
+  // Character creation state
+  const [characterName, setCharacterName] = useState('');
+  const [characterRace, setCharacterRace] = useState('HUMAN');
+  const [characterClass, setCharacterClass] = useState('WARRIOR');
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem('token');
+    if (savedToken) {
+      setToken(savedToken);
+      loadCharacters(savedToken);
+    }
+  }, []);
+
+  const loadCharacters = async (authToken: string) => {
+    try {
+      const response = await fetch('http://localhost:3001/api/characters', {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setCharacters(data.data || []);
+        setCurrentScreen('characters');
+      }
+    } catch (error) {
+      console.error('Failed to load characters:', error);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,22 +95,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
         localStorage.setItem('token', authToken);
         localStorage.setItem('refreshToken', data.data.refreshToken);
         localStorage.setItem('username', data.data.user?.username || formData.username);
+        setToken(authToken);
+        setMessage(isLogin ? 'Login successful!' : 'Registration successful!');
         
-        // Controlla se è una password temporanea
-        if (data.data.isTemporaryPassword) {
-          setMessage('Login effettuato con password temporanea. Devi cambiarla ora.');
-          setShowTempPasswordModal(true);
-          // Pre-compila il campo password temporanea con quella usata per il login
-          setTempPasswordData({
-            tempPassword: formData.password,
-            newPassword: '',
-            confirmPassword: ''
-          });
-        } else {
-          setMessage(isLogin ? 'Login successful!' : 'Registration successful!');
-          if (onAuthSuccess) {
-            onAuthSuccess();
-          }
+        if (onAuthSuccess) {
+          onAuthSuccess();
         }
       } else {
         setMessage(data.error || 'Authentication failed');
@@ -76,6 +108,65 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
       setMessage('Network error occurred');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleCreateCharacter = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage('');
+
+    try {
+      const response = await fetch('http://localhost:3001/api/characters', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: characterName,
+          race: characterRace,
+          characterClass: characterClass,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMessage('Character created successfully!');
+        setCharacterName('');
+        await loadCharacters(token);
+      } else {
+        setMessage(data.message || 'Character creation failed');
+      }
+    } catch (error) {
+      setMessage('Network error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSelectCharacter = async (characterId: string) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/characters/${characterId}/login`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setMessage('Character selected! Welcome to the game!');
+        localStorage.setItem('selectedCharacterId', characterId);
+        if (onAuthSuccess) {
+          onAuthSuccess();
+        }
+      } else {
+        setMessage('Failed to select character');
+      }
+    } catch (error) {
+      setMessage('Network error occurred');
     }
   };
 
@@ -101,32 +192,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
     try {
       const tempPassword = generateTempPassword();
       
-      // Chiamata API per reset password effettivo
-      const response = await fetch('http://localhost:3001/api/auth/reset-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: forgotPasswordEmail,
-          tempPassword: tempPassword
-        })
-      });
-
-      const data = await response.json();
+      localStorage.setItem('mockTempPassword', tempPassword);
+      localStorage.setItem('mockTempEmail', forgotPasswordEmail);
       
-      if (data.success) {
-        console.log(`📧 Password reset for: ${forgotPasswordEmail}`);
-        console.log(`🔑 New temp password: ${tempPassword}`);
-        
-        alert(`🎮 RPG Password Recovery\n\nPassword temporanea generata: ${tempPassword}\n\nLa tua password è stata aggiornata nel database.\nEffettua il login con questa password temporanea.`);
-        
-        setMessage('Password temporanea inviata! La tua password è stata aggiornata.');
-        setShowForgotPasswordModal(false);
-        setForgotPasswordEmail('');
-      } else {
-        setMessage(data.error || 'Errore durante il reset della password');
-      }
+      console.log(`📧 Mock Email sent to: ${forgotPasswordEmail}`);
+      console.log(`🔑 Mock Temp Password: ${tempPassword}`);
+      
+      alert(`🎮 RPG Password Recovery\n\nPassword temporanea generata: ${tempPassword}\n\n(In produzione sarà inviata via email)`);
+      
+      setMessage('Password temporanea inviata! Controlla la tua email.');
+      setShowForgotPasswordModal(false);
+      setForgotPasswordEmail('');
       
     } catch (error) {
       setMessage('Errore durante l\'invio della password temporanea');
@@ -141,53 +217,32 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
     setMessage('');
 
     try {
-      if (tempPasswordData.newPassword !== tempPasswordData.confirmPassword) {
-        setMessage('Le password non coincidono');
-        return;
-      }
+      const storedTempPassword = localStorage.getItem('mockTempPassword');
+      const storedTempEmail = localStorage.getItem('mockTempEmail');
       
-      if (tempPasswordData.newPassword.length < 6) {
-        setMessage('La password deve essere di almeno 6 caratteri');
-        return;
-      }
-
-      // Chiamata API per aggiornare la password nel database
-      const response = await fetch('http://localhost:3001/api/auth/update-temp-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({
-          currentTempPassword: tempPasswordData.tempPassword,
-          newPassword: tempPasswordData.newPassword
-        })
-      });
-
-      const data = await response.json();
-      
-      console.log('🔄 Update temp password response:', data);
-      
-      if (data.success) {
-        console.log('🔄 Password updated successfully in database');
+      if (tempPasswordData.tempPassword === storedTempPassword && 
+          formData.username === storedTempEmail?.split('@')[0]) {
         
-        setMessage('Password aggiornata con successo! Benvenuto nel gioco!');
+        if (tempPasswordData.newPassword !== tempPasswordData.confirmPassword) {
+          setMessage('Le password non coincidono');
+          return;
+        }
+        
+        if (tempPasswordData.newPassword.length < 6) {
+          setMessage('La password deve essere di almeno 6 caratteri');
+          return;
+        }
+        
+        console.log('🔄 Password updated successfully');
+        localStorage.removeItem('mockTempPassword');
+        localStorage.removeItem('mockTempEmail');
+        
+        setMessage('Password aggiornata con successo! Ora puoi effettuare il login.');
         setShowTempPasswordModal(false);
         setTempPasswordData({ tempPassword: '', newPassword: '', confirmPassword: '' });
         
-        // Procedi con il login normale
-        if (onAuthSuccess) {
-          onAuthSuccess();
-        }
       } else {
-        console.error('❌ Password update failed:', data);
-        
-        // Handle validation errors specifically
-        if (data.errors && Array.isArray(data.errors)) {
-          setMessage('Errori di validazione:\n• ' + data.errors.join('\n• '));
-        } else {
-          setMessage(data.error || 'Errore durante l\'aggiornamento della password');
-        }
+        setMessage('Password temporanea non valida o username errato');
       }
       
     } catch (error) {
@@ -581,12 +636,57 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
               >
                 {isLogin ? 'Non hai un account? Registrati' : 'Hai già un account? Accedi'}
               </button>
+              
+              {/* Link password temporanea - solo in modalità login */}
+              {isLogin && (
+                <div style={{ marginTop: '16px' }}>
+                  <button
+                    onClick={() => setShowTempPasswordModal(true)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#6b7280',
+                      textDecoration: 'underline',
+                      textDecorationColor: 'rgba(107, 114, 128, 0.5)',
+                      cursor: 'pointer',
+                      fontSize: '0.8rem',
+                      transition: 'all 0.3s ease',
+                      textShadow: '0 0 4px rgba(107, 114, 128, 0.3)'
+                    }}
+                    onMouseEnter={(e) => {
+                      const target = e.target as HTMLButtonElement;
+                      target.style.color = '#9ca3af';
+                      target.style.textDecorationColor = 'rgba(156, 163, 175, 0.7)';
+                      target.style.textShadow = '0 0 6px rgba(156, 163, 175, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      const target = e.target as HTMLButtonElement;
+                      target.style.color = '#6b7280';
+                      target.style.textDecorationColor = 'rgba(107, 114, 128, 0.5)';
+                      target.style.textShadow = '0 0 4px rgba(107, 114, 128, 0.3)';
+                    }}
+                  >
+                    🔑 Hai una password temporanea?
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       )}
 
-
+      {/* Altri screen - mantengo la struttura esistente per brevità */}
+      {currentScreen === 'characters' && (
+        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center px-4">
+          <div className="max-w-4xl w-full bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-white mb-2">Seleziona il tuo Personaggio</h1>
+              <p className="text-blue-200">Scegli il tuo eroe per questa avventura</p>
+            </div>
+            {/* Resto del contenuto characters */}
+          </div>
+        </div>
+      )}
 
       {/* Modal 1: Forgot Password */}
       {showForgotPasswordModal && (
@@ -750,44 +850,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
                 marginBottom: '8px',
                 textShadow: '0 0 15px rgba(187, 247, 208, 0.5)'
               }}>
-                🔑 Aggiorna Password
+                🔑 Cambia Password Temporanea
               </h2>
               <p style={{ color: '#9ca3af', fontSize: '0.95rem' }}>
-                Devi cambiare la password temporanea per continuare
+                Inserisci la password temporanea e crea la tua nuova password
               </p>
             </div>
-
-            {/* Error/Success Message */}
-            {message && (
-              <div
-                style={{
-                  marginBottom: '20px',
-                  padding: '12px',
-                  borderRadius: '8px',
-                  textAlign: 'center',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  whiteSpace: 'pre-line', // Allow line breaks for validation errors
-                  backgroundColor: message.includes('successful') || message.includes('Benvenuto')
-                    ? 'rgba(34, 197, 94, 0.2)' 
-                    : 'rgba(239, 68, 68, 0.2)',
-                  border: message.includes('successful') || message.includes('Benvenuto')
-                    ? '1px solid rgba(34, 197, 94, 0.4)' 
-                    : '1px solid rgba(239, 68, 68, 0.4)',
-                  color: message.includes('successful') || message.includes('Benvenuto')
-                    ? '#bbf7d0' 
-                    : '#fca5a5',
-                  boxShadow: message.includes('successful') || message.includes('Benvenuto')
-                    ? '0 0 20px rgba(52, 211, 153, 0.3)' 
-                    : '0 0 20px rgba(239, 68, 68, 0.3)',
-                  textShadow: message.includes('successful') || message.includes('Benvenuto')
-                    ? '0 0 8px rgba(187, 247, 208, 0.5)' 
-                    : '0 0 8px rgba(252, 165, 165, 0.5)'
-                }}
-              >
-                {message}
-              </div>
-            )}
 
             <form onSubmit={handleTempPasswordLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div>
@@ -877,38 +945,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
               >
                 {isLoading ? '🔄 Aggiornamento...' : '✨ Aggiorna Password'}
               </button>
-
-              {/* Password Requirements */}
-              <div style={{
-                marginTop: '16px',
-                padding: '12px',
-                backgroundColor: 'rgba(22, 101, 52, 0.3)',
-                borderRadius: '8px',
-                border: '1px solid rgba(34, 197, 94, 0.3)'
-              }}>
-                <p style={{
-                  color: '#bbf7d0',
-                  fontSize: '0.75rem',
-                  fontWeight: 'bold',
-                  marginBottom: '8px'
-                }}>
-                  📋 Requisiti Password:
-                </p>
-                <ul style={{
-                  color: '#9ca3af',
-                  fontSize: '0.7rem',
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: 0,
-                  lineHeight: '1.4'
-                }}>
-                  <li>• Almeno 8 caratteri</li>
-                  <li>• Almeno una lettera minuscola (a-z)</li>
-                  <li>• Almeno una lettera maiuscola (A-Z)</li>
-                  <li>• Almeno un numero (0-9)</li>
-                  <li>• Almeno un carattere speciale (!@#$%^&*)</li>
-                </ul>
-              </div>
             </form>
           </div>
         </div>

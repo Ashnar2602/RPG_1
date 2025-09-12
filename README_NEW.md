@@ -5,7 +5,7 @@ Un RPG fantasy multiplayer con AI narrativa avanzata, sistema di combattimento s
 ## 🚀 Stato Attuale: **FUNZIONANTE** ✅
 
 **Sistema Completamente Operativo:**
-- ✅ **Autenticazione**: JWT completa con registrazione/login/password recovery
+- ✅ **Autenticazione**: JWT completa con registrazione/login
 - ✅ **Creazione Personaggio**: Wizard a 3 step con preview in tempo reale
 - ✅ **Gestione Personaggi**: Selezione e gestione fino a 6 personaggi per account
 - ✅ **Database**: PostgreSQL con Prisma ORM completamente configurato
@@ -43,18 +43,15 @@ npm run dev
 ```
 
 **Porte di Sviluppo:**
-- 🌐 **Client**: http://localhost:5174 (o 5173 se disponibile)
+- 🌐 **Client**: http://localhost:5173
 - 🔧 **Server**: http://localhost:3001
 - 🗄️ **Database**: localhost:5433
 
 ### Credenziali di Test
 ```
-Username: testuser
-Email: test@test.com
-Password: Test123! (oppure usa password recovery)
+Username: TestUser
+Password: password123
 ```
-
-**Nota**: Se hai problemi di accesso, usa la funzione "Password dimenticata?" per generare una password temporanea.
 
 ## 🏗️ Architettura del Progetto
 
@@ -106,13 +103,10 @@ RPG_1/
 ## 🎯 Funzionalità Principali
 
 ### ✅ Sistema di Autenticazione
-- **Registrazione e Login**: Sistema sicuro con JWT tokens
-- **Password Recovery**: Reset password con codici temporanei
-- **Validazione Robusta**: Password con criteri di sicurezza avanzati
-- **JWT Authentication**: Token con refresh automatico
-- **Gestione Ruoli**: System multi-level (PLAYER, ADMIN)
-- **Rate Limiting**: Protezione contro attacchi brute-force
-- **UI Completa**: Interfaccia italiana con feedback visivi
+- Registrazione e login sicuri
+- JWT token con refresh automatico
+- Gestione ruoli utente (PLAYER, ADMIN)
+- Rate limiting per sicurezza
 
 ### ✅ Creazione Personaggio
 - **Wizard a 3 Step**:
@@ -131,7 +125,7 @@ RPG_1/
 
 ## 🚀 Come Iniziare
 
-1. **Primo Accesso**: Vai su http://localhost:5174 (o porta mostrata nel terminale)
+1. **Primo Accesso**: Vai su http://localhost:5173
 2. **Registrazione**: Crea un nuovo account
 3. **Login**: Accedi con le credenziali
 4. **Crea Personaggio**: Usa il wizard guidato
@@ -188,7 +182,7 @@ RPG_1/
 DATABASE_URL="postgresql://username:password@localhost:5433/rpg_game"
 JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
 PORT=3001
-CLIENT_URL=http://localhost:5174
+CLIENT_URL=http://localhost:5173
 ```
 
 ## 🎯 Prossimi Sviluppi

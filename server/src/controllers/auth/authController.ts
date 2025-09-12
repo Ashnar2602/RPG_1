@@ -79,7 +79,8 @@ export const login = async (req: Request, res: Response) => {
       data: {
         user: result.user,
         token: result.token,
-        refreshToken: result.refreshToken
+        refreshToken: result.refreshToken,
+        isTemporaryPassword: result.isTemporaryPassword // Add this field to the response
       },
       message: 'Login successful'
     };
@@ -239,6 +240,93 @@ export const logout = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Logout controller error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      code: 'SERVER_ERROR'
+    });
+  }
+};
+
+/**
+ * Reset password with temporary password
+ */
+export const resetPassword = async (req: Request, res: Response) => {
+  try {
+    const { email, tempPassword } = req.body;
+
+    if (!email || !tempPassword) {
+      return res.status(400).json({
+        success: false,
+        error: 'Email and temporary password are required',
+        code: 'MISSING_FIELDS'
+      });
+    }
+
+    const result = await AuthService.resetPassword(email, tempPassword);
+
+    if (!result.success) {
+      return res.status(400).json({
+        success: false,
+        error: result.error,
+        code: 'RESET_FAILED'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Password reset successfully. Login with your temporary password.'
+    });
+  } catch (error) {
+    console.error('Reset password controller error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      code: 'SERVER_ERROR'
+    });
+  }
+};
+
+/**
+ * Update temporary password with permanent password
+ */
+export const updateTempPassword = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        error: 'Authentication required',
+        code: 'NO_AUTH'
+      });
+    }
+
+    const { currentTempPassword, newPassword } = req.body;
+
+    if (!currentTempPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        error: 'Current temporary password and new password are required',
+        code: 'MISSING_FIELDS'
+      });
+    }
+
+    const result = await AuthService.updateTempPassword(req.user.id, currentTempPassword, newPassword);
+
+    if (!result.success) {
+      return res.status(400).json({
+        success: false,
+        error: result.error,
+        errors: result.errors, // Include validation errors array
+        code: 'UPDATE_FAILED'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Password updated successfully'
+    });
+  } catch (error) {
+    console.error('Update temp password controller error:', error);
     res.status(500).json({
       success: false,
       error: 'Internal server error',

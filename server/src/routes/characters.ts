@@ -13,10 +13,16 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 
     const characters = await CharacterCreationService.getUserCharacters(userId);
-    res.json({ characters });
+    res.json({ 
+      success: true,
+      data: characters 
+    });
   } catch (error) {
     console.error('Get characters error:', error);
-    res.status(500).json({ error: 'Errore nel recupero dei personaggi' });
+    res.status(500).json({ 
+      success: false,
+      error: 'Errore nel recupero dei personaggi' 
+    });
   }
 });
 

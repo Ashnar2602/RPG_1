@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AIConfigurationPage from './AIConfigurationPage';
+// import AIConfigurationPage from './AIConfigurationPage'; // WIP - Component not available
 
 interface Character {
   id: string;
@@ -25,7 +25,8 @@ const GameDashboardSimplified: React.FC<GameDashboardProps> = ({
   const [currentView, setCurrentView] = useState<'dashboard' | 'ai-config'>('dashboard');
   
   if (currentView === 'ai-config') {
-    return <AIConfigurationPage onBack={() => setCurrentView('dashboard')} />;
+    // return <AIConfigurationPage onBack={() => setCurrentView('dashboard')} />; // WIP
+    return <div>AI Configuration Page - WIP</div>;
   }
 
   const getRaceEmoji = (race: string) => {

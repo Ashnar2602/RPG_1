@@ -21,6 +21,7 @@ interface AuthResult {
   refreshToken?: string
   user?: any
   message?: string
+  isTemporaryPassword?: boolean
 }
 
 export class AuthService {
@@ -121,34 +122,22 @@ export class AuthService {
     try {
       const { email, username, password } = credentials
 
-      // Find user by email or username
+      // Find user by email or username using raw SQL to include isTemporaryPassword
       let user;
       if (email) {
-        user = await prisma.user.findUnique({
-          where: { email: email.toLowerCase() },
-          select: {
-            id: true,
-            email: true,
-            username: true,
-            password: true,
-            isActive: true,
-            isPremium: true,
-            createdAt: true,
-          }
-        });
+        const result = await prisma.$queryRaw`
+          SELECT id, email, username, password, "isActive", "isPremium", "createdAt", "isTemporaryPassword"
+          FROM users 
+          WHERE LOWER(email) = LOWER(${email})
+        `;
+        user = (result as any[])[0] || null;
       } else if (username) {
-        user = await prisma.user.findUnique({
-          where: { username: username.toLowerCase() },
-          select: {
-            id: true,
-            email: true,
-            username: true,
-            password: true,
-            isActive: true,
-            isPremium: true,
-            createdAt: true,
-          }
-        });
+        const result = await prisma.$queryRaw`
+          SELECT id, email, username, password, "isActive", "isPremium", "createdAt", "isTemporaryPassword"
+          FROM users 
+          WHERE LOWER(username) = LOWER(${username})
+        `;
+        user = (result as any[])[0] || null;
       }
 
       if (!user) {
@@ -217,13 +206,14 @@ export class AuthService {
       // Remove password from response
       const { password: _, ...userWithoutPassword } = user
 
-      logger.info(`User logged in: ${user.username} (${user.email})`)
+      logger.info(`User logged in: ${user.username} (${user.email}) - Temporary password: ${user.isTemporaryPassword}`)
 
       return {
         success: true,
         token,
         refreshToken,
         user: userWithoutPassword,
+        isTemporaryPassword: user.isTemporaryPassword, // Add this field to the response
         message: 'Login successful'
       }
 
@@ -468,5 +458,88 @@ export class AuthService {
       logger.error('Refresh token error:', error);
       return null;
     }
+  }
+
+  // Reset password with temporary password
+  static async resetPassword(email: string): Promise<AuthResult> {
+    try {
+      // Find user by email using raw SQL
+      const result = await prisma.$queryRaw`
+        SELECT id, email, username, "isActive"
+        FROM users 
+        WHERE LOWER(email) = LOWER(${email})
+      `;
+      const user = (result as any[])[0];
+
+      if (!user || !user.isActive) {
+        return {
+          success: false,
+          message: 'User not found or inactive'
+        }
+      }
+
+      // Generate temporary password
+      const tempPassword = this.generateTempPassword();
+      const hashedTempPassword = await bcrypt.hash(tempPassword, 12);
+
+      // Update user with temporary password using raw SQL
+      await prisma.$executeRaw`
+        UPDATE users 
+        SET password = ${hashedTempPassword}, "isTemporaryPassword" = true, "updatedAt" = NOW()
+        WHERE id = ${user.id}
+      `;
+
+      logger.info(`Password reset for user: ${user.username} - Temp password: ${tempPassword}`);
+
+      return {
+        success: true,
+        message: `Temporary password generated: ${tempPassword}`,
+        user: { username: user.username, email: user.email }
+      }
+
+    } catch (error) {
+      logger.error('Reset password error:', error)
+      return {
+        success: false,
+        message: 'Password reset failed'
+      }
+    }
+  }
+
+  // Update temporary password to permanent
+  static async updateTempPassword(userId: string, newPassword: string): Promise<AuthResult> {
+    try {
+      // Hash new password
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+      // Update password and set isTemporaryPassword to false using raw SQL
+      await prisma.$executeRaw`
+        UPDATE users 
+        SET password = ${hashedPassword}, "isTemporaryPassword" = false, "updatedAt" = NOW()
+        WHERE id = ${userId}
+      `;
+
+      logger.info(`Temporary password updated for user: ${userId}`);
+
+      return {
+        success: true,
+        message: 'Password updated successfully'
+      }
+
+    } catch (error) {
+      logger.error('Update temp password error:', error)
+      return {
+        success: false,
+        message: 'Password update failed'
+      }
+    }
+  }
+
+  // Generate temporary password
+  private static generateTempPassword(): string {
+    const adjectives = ['MAGIC', 'DRAGON', 'SWORD', 'HERO', 'RUNE', 'FIRE', 'ICE', 'STORM', 'LIGHT', 'DARK'];
+    const randomAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    return `${randomAdj}-${randomNum}`;
   }
 }

@@ -174,13 +174,13 @@ export class CharacterCreationService {
       throw new Error('Nome personaggio già in uso');
     }
 
-    // Check character limit per user (max 3)
+    // Check character limit per user (max 6)
     const userCharacterCount = await prisma.character.count({
       where: { userId }
     });
     
-    if (userCharacterCount >= 3) {
-      throw new Error('Hai raggiunto il limite massimo di 3 personaggi');
+    if (userCharacterCount >= 6) {
+      throw new Error('Hai raggiunto il limite massimo di 6 personaggi');
     }
 
     // Apply racial bonuses to stats
