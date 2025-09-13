@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// World hierarchy types
+// World hierarchy types based on our 4-tier system
 interface WorldLocation {
   id: string;
   name: string;
@@ -44,181 +44,9 @@ export const MapPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // CSS inline styles for reliable display
-  const styles = {
-    container: {
-      minHeight: '100vh',
-      backgroundColor: '#1a1a1a',
-      color: '#ffffff',
-      padding: '1.5rem',
-      fontFamily: 'Inter, sans-serif'
-    },
-    header: {
-      fontSize: '2rem',
-      fontWeight: 'bold' as const,
-      color: '#60a5fa',
-      marginBottom: '1.5rem'
-    },
-    badge: {
-      position: 'fixed' as const,
-      top: '1rem',
-      right: '1rem',
-      backgroundColor: '#16a34a',
-      color: 'white',
-      padding: '0.5rem 1rem',
-      borderRadius: '9999px',
-      fontSize: '0.875rem',
-      fontWeight: 'bold' as const,
-      zIndex: 1000
-    },
-    error: {
-      backgroundColor: '#dc2626',
-      color: 'white',
-      padding: '1rem',
-      borderRadius: '0.5rem',
-      marginBottom: '1.5rem'
-    },
-    loading: {
-      backgroundColor: '#2563eb',
-      color: 'white',
-      padding: '1rem',
-      borderRadius: '0.5rem',
-      marginBottom: '1.5rem'
-    },
-    breadcrumb: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      marginBottom: '1.5rem',
-      color: '#9ca3af'
-    },
-    breadcrumbButton: {
-      backgroundColor: 'transparent',
-      border: 'none',
-      color: '#9ca3af',
-      cursor: 'pointer',
-      textDecoration: 'underline'
-    },
-    controls: {
-      display: 'flex',
-      gap: '1rem',
-      marginBottom: '1.5rem'
-    },
-    button: {
-      padding: '0.5rem 1rem',
-      backgroundColor: '#374151',
-      color: 'white',
-      border: 'none',
-      borderRadius: '0.5rem',
-      cursor: 'pointer'
-    },
-    primaryButton: {
-      padding: '0.5rem 1rem',
-      backgroundColor: '#2563eb',
-      color: 'white',
-      border: 'none',
-      borderRadius: '0.5rem'
-    },
-    sectionTitle: {
-      fontSize: '1.25rem',
-      fontWeight: '600' as const,
-      color: '#f97316',
-      marginBottom: '1rem'
-    },
-    grid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: '1rem',
-      marginBottom: '2rem'
-    },
-    card: {
-      padding: '1rem',
-      backgroundColor: '#374151',
-      border: '1px solid #4b5563',
-      borderRadius: '0.5rem',
-      cursor: 'pointer',
-      transition: 'all 0.2s'
-    },
-    cardSelected: {
-      padding: '1rem',
-      backgroundColor: '#1e40af',
-      border: '1px solid #3b82f6',
-      borderRadius: '0.5rem',
-      cursor: 'pointer',
-      transition: 'all 0.2s'
-    },
-    cardTitle: {
-      fontSize: '1.125rem',
-      fontWeight: '600' as const,
-      marginBottom: '0.5rem',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    },
-    tierBadge: {
-      padding: '0.25rem 0.5rem',
-      borderRadius: '0.25rem',
-      fontSize: '0.75rem',
-      fontWeight: '500' as const
-    },
-    description: {
-      color: '#d1d5db',
-      fontSize: '0.875rem',
-      marginBottom: '0.75rem'
-    },
-    population: {
-      color: '#9ca3af',
-      fontSize: '0.75rem',
-      marginBottom: '0.5rem'
-    },
-    features: {
-      display: 'flex',
-      flexWrap: 'wrap' as const,
-      gap: '0.25rem',
-      marginBottom: '0.5rem'
-    },
-    feature: {
-      padding: '0.25rem 0.5rem',
-      backgroundColor: '#4b5563',
-      color: '#d1d5db',
-      borderRadius: '0.25rem',
-      fontSize: '0.75rem'
-    },
-    cardFooter: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    },
-    status: {
-      display: 'flex',
-      gap: '0.5rem'
-    },
-    statusBadge: {
-      padding: '0.25rem 0.5rem',
-      borderRadius: '0.25rem',
-      fontSize: '0.75rem'
-    },
-    explore: {
-      color: '#60a5fa',
-      fontSize: '0.875rem'
-    },
-    overview: {
-      backgroundColor: '#374151',
-      borderRadius: '0.5rem',
-      padding: '1.5rem',
-      border: '1px solid #4b5563'
-    },
-    overviewTitle: {
-      fontSize: '1.25rem',
-      fontWeight: '600' as const,
-      color: '#a855f7',
-      marginBottom: '1rem'
-    }
-  };
-
   // Initialize world data from API
   useEffect(() => {
-    console.log('🗺️ MAP SYSTEM v2.0 WITH INLINE STYLES LOADING...');
+    console.log('🗺️ NEW MAP SYSTEM v2.0 LOADING...');
     loadWorldData();
     loadCharacterState();
   }, []);
@@ -241,6 +69,7 @@ export const MapPage: React.FC = () => {
     } catch (err) {
       console.error('❌ Error loading world data:', err);
       setError('Failed to load world data from server');
+      // Fallback to empty data so UI still works
       setWorldData([]);
     } finally {
       setLoading(false);
@@ -248,35 +77,21 @@ export const MapPage: React.FC = () => {
   };
 
   const loadCharacterState = () => {
-    // Check if user is Admin (for testing) - in real app this would come from auth
-    const isAdmin = localStorage.getItem('currentUser') === 'Admin';
-    
-    if (isAdmin) {
-      // Admin has access to everything
-      setCharacter({
-        id: 999,
-        name: 'Admin Explorer',
-        currentLocationId: 'location_laboratorio_alchimista',
-        level: 100,
-        knownLocations: [] // Will be handled by isLocationKnown function
-      });
-    } else {
-      // Regular player
-      setCharacter({
-        id: 1,
-        name: 'Alchimista Player',
-        currentLocationId: 'location_laboratorio_alchimista',
-        level: 1,
-        knownLocations: [
-          'continent_orientale',
-          'region_velendar', 
-          'city_thalareth',
-          'location_laboratorio_alchimista',
-          'location_accademia',
-          'location_mercato_quartiere'
-        ]
-      });
-    }
+    // Mock character data for now
+    setCharacter({
+      id: 1,
+      name: 'Alchimista Player',
+      currentLocationId: 'location_laboratorio_alchimista',
+      level: 1,
+      knownLocations: [
+        'continent_orientale',
+        'region_velendar', 
+        'city_thalareth',
+        'location_laboratorio_alchimista',
+        'location_accademia',
+        'location_mercato_quartiere'
+      ]
+    });
   };
 
   const getVisibleLocations = (): WorldLocation[] => {
@@ -285,20 +100,24 @@ export const MapPage: React.FC = () => {
     const { currentZoom, focusedLocationId } = mapView;
     
     if (currentZoom === 'world') {
+      // Show all continents 
       return worldData.filter(loc => loc.tier === 'CONTINENT');
     }
     
     if (currentZoom === 'continent' && focusedLocationId) {
+      // Show regions of focused continent
       const continent = findLocationInHierarchy(focusedLocationId);
       return continent?.children?.filter(loc => loc.tier === 'REGION') || [];
     }
     
     if (currentZoom === 'region' && focusedLocationId) {
+      // Show cities of focused region
       const region = findLocationInHierarchy(focusedLocationId);
       return region?.children?.filter(loc => loc.tier === 'CITY') || [];
     }
     
     if (currentZoom === 'city' && focusedLocationId) {
+      // Show locations of focused city
       const city = findLocationInHierarchy(focusedLocationId);
       return city?.children?.filter(loc => loc.tier === 'LOCATION') || [];
     }
@@ -345,6 +164,7 @@ export const MapPage: React.FC = () => {
         selectedLocationId: location.id
       });
     } else if (location.tier === 'LOCATION') {
+      // This is a final location, just select it
       setMapView(prev => ({
         ...prev,
         selectedLocationId: location.id
@@ -356,6 +176,7 @@ export const MapPage: React.FC = () => {
     const { currentZoom, focusedLocationId } = mapView;
     
     if (currentZoom === 'city' && focusedLocationId) {
+      // Go back to region view
       const city = findLocationInHierarchy(focusedLocationId);
       const parentRegion = city?.parentId ? findLocationInHierarchy(city.parentId) : null;
       
@@ -365,6 +186,7 @@ export const MapPage: React.FC = () => {
         selectedLocationId: parentRegion?.id
       });
     } else if (currentZoom === 'region' && focusedLocationId) {
+      // Go back to continent view
       const region = findLocationInHierarchy(focusedLocationId);
       const parentContinent = region?.parentId ? findLocationInHierarchy(region.parentId) : null;
       
@@ -374,6 +196,7 @@ export const MapPage: React.FC = () => {
         selectedLocationId: parentContinent?.id
       });
     } else if (currentZoom === 'continent') {
+      // Go back to world view
       setMapView({
         currentZoom: 'world',
         focusedLocationId: undefined,
@@ -403,28 +226,7 @@ export const MapPage: React.FC = () => {
   };
 
   const isLocationKnown = (location: WorldLocation): boolean => {
-    // Admin can see everything
-    const isAdmin = localStorage.getItem('currentUser') === 'Admin';
-    if (isAdmin) {
-      return true;
-    }
-    
-    // Regular player logic
     return character?.knownLocations.includes(location.id) || location.isKnown;
-  };
-
-  const getTierBadgeStyle = (tier: string) => {
-    const base = { ...styles.tierBadge };
-    switch (tier) {
-      case 'CONTINENT':
-        return { ...base, backgroundColor: '#7c3aed', color: 'white' };
-      case 'REGION':
-        return { ...base, backgroundColor: '#2563eb', color: 'white' };
-      case 'CITY':
-        return { ...base, backgroundColor: '#16a34a', color: 'white' };
-      default:
-        return { ...base, backgroundColor: '#ea580c', color: 'white' };
-    }
   };
 
   const renderLocationCard = (location: WorldLocation) => {
@@ -435,58 +237,64 @@ export const MapPage: React.FC = () => {
     return (
       <div
         key={location.id}
-        style={isSelected ? styles.cardSelected : styles.card}
+        className={`
+          p-4 border rounded-lg cursor-pointer transition-all duration-200
+          ${isSelected ? 'border-blue-500 bg-blue-50 dark:bg-blue-900' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800'}
+          ${isKnown ? 'opacity-100' : 'opacity-60'}
+          hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700
+        `}
         onClick={() => zoomIntoLocation(location)}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = isSelected ? '#1e40af' : '#4b5563';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = isSelected ? '#1e40af' : '#374151';
-        }}
       >
-        <div style={styles.cardTitle}>
-          <h3>{isKnown ? location.name : '???'}</h3>
-          <span style={getTierBadgeStyle(location.tier)}>
+        <div className="flex justify-between items-start mb-2">
+          <h3 className={`text-lg font-semibold ${isKnown ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+            {isKnown ? location.name : '???'}
+          </h3>
+          <span className={`px-2 py-1 rounded text-xs font-medium ${
+            location.tier === 'CONTINENT' ? 'bg-purple-600 text-white' :
+            location.tier === 'REGION' ? 'bg-blue-600 text-white' :
+            location.tier === 'CITY' ? 'bg-green-600 text-white' :
+            'bg-orange-600 text-white'
+          }`}>
             {location.tier.toLowerCase()}
           </span>
         </div>
         
         {isKnown && location.description && (
-          <p style={styles.description}>{location.description}</p>
+          <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">{location.description}</p>
         )}
         
         {isKnown && location.population && (
-          <p style={styles.population}>
+          <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">
             Population: {location.population.toLocaleString()}
           </p>
         )}
         
         {isKnown && location.specialFeatures && location.specialFeatures.length > 0 && (
-          <div style={styles.features}>
+          <div className="flex flex-wrap gap-1 mb-2">
             {location.specialFeatures.map((feature, index) => (
-              <span key={index} style={styles.feature}>
+              <span key={index} className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
                 {feature}
               </span>
             ))}
           </div>
         )}
         
-        <div style={styles.cardFooter}>
-          <div style={styles.status}>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2">
             {!location.isAccessible && (
-              <span style={{...styles.statusBadge, backgroundColor: '#dc2626', color: 'white'}}>
+              <span className="px-2 py-1 bg-red-600 text-white rounded text-xs">
                 Restricted
               </span>
             )}
             {!isKnown && (
-              <span style={{...styles.statusBadge, backgroundColor: '#6b7280', color: 'white'}}>
+              <span className="px-2 py-1 bg-gray-500 text-white rounded text-xs">
                 Unknown
               </span>
             )}
           </div>
           
           {canZoomIn && (
-            <span style={styles.explore}>Click to explore →</span>
+            <span className="text-blue-500 text-sm">Click to explore →</span>
           )}
         </div>
       </div>
@@ -497,71 +305,42 @@ export const MapPage: React.FC = () => {
   const breadcrumb = getBreadcrumb();
 
   return (
-    <div style={styles.container}>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">
       {/* Debug Badge */}
-      <div style={styles.badge}>
-        INLINE STYLES v2.0 ✅
+      <div className="fixed top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold z-50">
+        NEW MAP v2.0 ACTIVE ✅
       </div>
       
-      {/* Admin Toggle for Testing */}
-      <div style={{
-        position: 'fixed',
-        top: '1rem',
-        left: '1rem',
-        display: 'flex',
-        gap: '0.5rem',
-        zIndex: 1000
-      }}>
-        <button
-          style={{
-            ...styles.button,
-            backgroundColor: localStorage.getItem('currentUser') === 'Admin' ? '#16a34a' : '#374151'
-          }}
-          onClick={() => {
-            const isAdmin = localStorage.getItem('currentUser') === 'Admin';
-            if (isAdmin) {
-              localStorage.removeItem('currentUser');
-            } else {
-              localStorage.setItem('currentUser', 'Admin');
-            }
-            loadCharacterState();
-            window.location.reload(); // Reload to refresh data
-          }}
-        >
-          {localStorage.getItem('currentUser') === 'Admin' ? '👑 Admin Mode' : '🔓 Test as Admin'}
-        </button>
-      </div>
-      
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h1 style={styles.header}>World Map & Travel System</h1>
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-6">World Map & Travel</h1>
         
         {error && (
-          <div style={styles.error}>
+          <div className="bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-6">
             <strong>Error:</strong> {error}
           </div>
         )}
         
         {loading && (
-          <div style={styles.loading}>
+          <div className="bg-blue-100 dark:bg-blue-900 border border-blue-400 text-blue-700 dark:text-blue-200 px-4 py-3 rounded mb-6">
             Loading world data...
           </div>
         )}
         
         {/* Breadcrumb Navigation */}
         {breadcrumb.length > 0 && (
-          <div style={styles.breadcrumb}>
+          <div className="mb-6 flex items-center gap-2 text-gray-600 dark:text-gray-300">
             <button
-              style={styles.breadcrumbButton}
               onClick={() => setMapView({ currentZoom: 'world', focusedLocationId: undefined, selectedLocationId: undefined })}
+              className="hover:text-blue-500 transition-colors"
             >
               🌍 World
             </button>
             {breadcrumb.map((loc) => (
               <React.Fragment key={loc.id}>
-                <span>→</span>
+                <span className="text-gray-400">→</span>
                 <button
-                  style={styles.breadcrumbButton}
                   onClick={() => zoomIntoLocation(loc)}
+                  className="hover:text-blue-500 transition-colors"
                 >
                   {loc.name}
                 </button>
@@ -571,50 +350,53 @@ export const MapPage: React.FC = () => {
         )}
         
         {/* Zoom Controls */}
-        <div style={styles.controls}>
+        <div className="mb-6 flex gap-4">
           {mapView.currentZoom !== 'world' && (
-            <button style={styles.button} onClick={zoomOut}>
+            <button
+              onClick={zoomOut}
+              className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+            >
               ← Zoom Out
             </button>
           )}
           
-          <div style={styles.primaryButton}>
+          <div className="px-4 py-2 bg-blue-600 text-white rounded-lg">
             Current View: {mapView.currentZoom}
           </div>
         </div>
         
         {/* Available Destinations */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h2 style={styles.sectionTitle}>Available Destinations</h2>
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-orange-600 dark:text-orange-400 mb-4">Available Destinations</h2>
           
           {visibleLocations.length === 0 ? (
-            <div style={styles.card}>
-              <p style={styles.description}>
+            <div className="bg-gray-200 dark:bg-gray-800 p-6 rounded-lg">
+              <p className="text-gray-600 dark:text-gray-400">
                 {loading ? 'Loading locations...' : 'No accessible locations found. You may need to complete quests or reach higher levels.'}
               </p>
             </div>
           ) : (
-            <div style={styles.grid}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {visibleLocations.map(renderLocationCard)}
             </div>
           )}
         </div>
         
         {/* World Overview */}
-        <div style={styles.overview}>
-          <h2 style={styles.overviewTitle}>World Overview</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-purple-600 dark:text-purple-400 mb-4">World Overview</h2>
           
           {worldData.length === 0 ? (
-            <p style={styles.description}>
+            <p className="text-gray-600 dark:text-gray-400">
               {loading ? 'Loading world information...' : 'No world data available.'}
             </p>
           ) : (
-            <div style={styles.grid}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {worldData.map(continent => (
-                <div key={continent.id} style={{...styles.card, cursor: 'default'}}>
-                  <h3 style={{...styles.cardTitle, color: '#a855f7'}}>{continent.name}</h3>
-                  <p style={styles.description}>{continent.description}</p>
-                  <p style={styles.population}>
+                <div key={continent.id} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                  <h3 className="text-lg font-semibold text-purple-700 dark:text-purple-300 mb-2">{continent.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">{continent.description}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">
                     Regions: {continent.children?.length || 0}
                   </p>
                 </div>

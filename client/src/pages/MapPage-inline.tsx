@@ -44,7 +44,7 @@ export const MapPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // CSS inline styles for reliable display
+  // CSS inline styles for fallback
   const styles = {
     container: {
       minHeight: '100vh',
@@ -55,7 +55,7 @@ export const MapPage: React.FC = () => {
     },
     header: {
       fontSize: '2rem',
-      fontWeight: 'bold' as const,
+      fontWeight: 'bold',
       color: '#60a5fa',
       marginBottom: '1.5rem'
     },
@@ -68,7 +68,7 @@ export const MapPage: React.FC = () => {
       padding: '0.5rem 1rem',
       borderRadius: '9999px',
       fontSize: '0.875rem',
-      fontWeight: 'bold' as const,
+      fontWeight: 'bold',
       zIndex: 1000
     },
     error: {
@@ -121,7 +121,7 @@ export const MapPage: React.FC = () => {
     },
     sectionTitle: {
       fontSize: '1.25rem',
-      fontWeight: '600' as const,
+      fontWeight: '600',
       color: '#f97316',
       marginBottom: '1rem'
     },
@@ -149,7 +149,7 @@ export const MapPage: React.FC = () => {
     },
     cardTitle: {
       fontSize: '1.125rem',
-      fontWeight: '600' as const,
+      fontWeight: '600',
       marginBottom: '0.5rem',
       display: 'flex',
       justifyContent: 'space-between',
@@ -159,7 +159,7 @@ export const MapPage: React.FC = () => {
       padding: '0.25rem 0.5rem',
       borderRadius: '0.25rem',
       fontSize: '0.75rem',
-      fontWeight: '500' as const
+      fontWeight: '500'
     },
     description: {
       color: '#d1d5db',
@@ -210,7 +210,7 @@ export const MapPage: React.FC = () => {
     },
     overviewTitle: {
       fontSize: '1.25rem',
-      fontWeight: '600' as const,
+      fontWeight: '600',
       color: '#a855f7',
       marginBottom: '1rem'
     }
@@ -218,7 +218,7 @@ export const MapPage: React.FC = () => {
 
   // Initialize world data from API
   useEffect(() => {
-    console.log('🗺️ MAP SYSTEM v2.0 WITH INLINE STYLES LOADING...');
+    console.log('🗺️ NEW MAP SYSTEM v2.0 LOADING...');
     loadWorldData();
     loadCharacterState();
   }, []);
@@ -248,35 +248,20 @@ export const MapPage: React.FC = () => {
   };
 
   const loadCharacterState = () => {
-    // Check if user is Admin (for testing) - in real app this would come from auth
-    const isAdmin = localStorage.getItem('currentUser') === 'Admin';
-    
-    if (isAdmin) {
-      // Admin has access to everything
-      setCharacter({
-        id: 999,
-        name: 'Admin Explorer',
-        currentLocationId: 'location_laboratorio_alchimista',
-        level: 100,
-        knownLocations: [] // Will be handled by isLocationKnown function
-      });
-    } else {
-      // Regular player
-      setCharacter({
-        id: 1,
-        name: 'Alchimista Player',
-        currentLocationId: 'location_laboratorio_alchimista',
-        level: 1,
-        knownLocations: [
-          'continent_orientale',
-          'region_velendar', 
-          'city_thalareth',
-          'location_laboratorio_alchimista',
-          'location_accademia',
-          'location_mercato_quartiere'
-        ]
-      });
-    }
+    setCharacter({
+      id: 1,
+      name: 'Alchimista Player',
+      currentLocationId: 'location_laboratorio_alchimista',
+      level: 1,
+      knownLocations: [
+        'continent_orientale',
+        'region_velendar', 
+        'city_thalareth',
+        'location_laboratorio_alchimista',
+        'location_accademia',
+        'location_mercato_quartiere'
+      ]
+    });
   };
 
   const getVisibleLocations = (): WorldLocation[] => {
@@ -403,13 +388,6 @@ export const MapPage: React.FC = () => {
   };
 
   const isLocationKnown = (location: WorldLocation): boolean => {
-    // Admin can see everything
-    const isAdmin = localStorage.getItem('currentUser') === 'Admin';
-    if (isAdmin) {
-      return true;
-    }
-    
-    // Regular player logic
     return character?.knownLocations.includes(location.id) || location.isKnown;
   };
 
@@ -500,40 +478,11 @@ export const MapPage: React.FC = () => {
     <div style={styles.container}>
       {/* Debug Badge */}
       <div style={styles.badge}>
-        INLINE STYLES v2.0 ✅
-      </div>
-      
-      {/* Admin Toggle for Testing */}
-      <div style={{
-        position: 'fixed',
-        top: '1rem',
-        left: '1rem',
-        display: 'flex',
-        gap: '0.5rem',
-        zIndex: 1000
-      }}>
-        <button
-          style={{
-            ...styles.button,
-            backgroundColor: localStorage.getItem('currentUser') === 'Admin' ? '#16a34a' : '#374151'
-          }}
-          onClick={() => {
-            const isAdmin = localStorage.getItem('currentUser') === 'Admin';
-            if (isAdmin) {
-              localStorage.removeItem('currentUser');
-            } else {
-              localStorage.setItem('currentUser', 'Admin');
-            }
-            loadCharacterState();
-            window.location.reload(); // Reload to refresh data
-          }}
-        >
-          {localStorage.getItem('currentUser') === 'Admin' ? '👑 Admin Mode' : '🔓 Test as Admin'}
-        </button>
+        NEW MAP v2.0 ACTIVE ✅
       </div>
       
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h1 style={styles.header}>World Map & Travel System</h1>
+        <h1 style={styles.header}>World Map & Travel</h1>
         
         {error && (
           <div style={styles.error}>

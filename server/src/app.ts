@@ -7,6 +7,7 @@ import authRoutes from './routes/auth.js';
 import charactersRoutes from './routes/characters.js';
 import combatRoutes from './routes/combat.js';
 import mapRoutes from './routes/map.js';
+import locationsRoutes from './routes/locations.js';
 import aiRoutes from './routes/ai.js';
 import { prisma } from './utils/prisma.js';
 
@@ -74,6 +75,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/characters', charactersRoutes);
 app.use('/api/combat', combatRoutes);
 app.use('/api/map', mapRoutes);
+app.use('/api/locations', locationsRoutes);
 app.use('/api/ai', aiRoutes);
 
 // 404 handler

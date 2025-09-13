@@ -14,6 +14,7 @@ Un RPG fantasy multiplayer con AI narrativa avanzata, sistema di combattimento s
 
 **Sistemi in Sviluppo:**
 - 🚧 **Combat System**: Base implementata, in fase di testing
+- 🚧 **Map System**: Riprogettazione completa con routing geografico realistico
 - 🚧 **Chat System**: WebSocket infrastructure pronta
 - 🚧 **Quest System**: Design completato, implementazione in corso
 
@@ -195,7 +196,7 @@ CLIENT_URL=http://localhost:5174
 
 ### Priorità Immediate (Q1 2025)
 1. **⚔️ Combat System**: Implementazione battle mechanics
-2. **🗺️ Map System**: Navigazione world e locations
+2. **🗺️ Map System**: Sistema mappa gerarchico con routing geografico realistico
 3. **💬 Real-time Chat**: Comunicazione multiplayer
 4. **📜 Quest System**: Missioni e progressione
 
