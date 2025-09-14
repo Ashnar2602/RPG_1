@@ -77,15 +77,7 @@
 
 ## 🔐 Credenziali di Test
 
-**⚠️ AGGIORNATE:** 13 Settembre 2025 - Password resettate a valori conosciuti
-
-### 🔑 **Credenziali Database PostgreSQL:**
-- **Host:** localhost  
-- **Port:** 5433  
-- **Database:** rpg_db  
-- **Username:** rpg_user  
-- **Password:** `rpg_password`  
-- **DATABASE_URL:** `postgresql://rpg_user:rpg_password@localhost:5433/rpg_db`
+**⚠️ AGGIORNATE:** 11 Settembre 2025 - Password resettate a valori conosciuti
 
 ### 👤 Account di Test:
 
