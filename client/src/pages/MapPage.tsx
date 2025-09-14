@@ -283,24 +283,48 @@ export const MapPage: React.FC = () => {
     if (loading || !worldData || worldData.length === 0) return [];
     
     const { currentZoom, focusedLocationId } = mapView;
+    const isAdmin = localStorage.getItem('currentUser') === 'Admin';
     
     if (currentZoom === 'world') {
-      return worldData.filter(loc => loc.tier === 'CONTINENT');
+      const continents = worldData.filter(loc => loc.tier === 'CONTINENT');
+      // Admin sees all continents, regular players see only known/accessible ones
+      if (isAdmin) {
+        return continents;
+      }
+      return continents.filter(loc => isLocationKnown(loc) || loc.isAccessible);
     }
     
     if (currentZoom === 'continent' && focusedLocationId) {
       const continent = findLocationInHierarchy(focusedLocationId);
-      return continent?.children?.filter(loc => loc.tier === 'REGION') || [];
+      const regions = continent?.children?.filter(loc => loc.tier === 'REGION') || [];
+      // Admin sees all regions, regular players see only known/accessible ones
+      if (isAdmin) {
+        return regions;
+      }
+      return regions.filter(loc => isLocationKnown(loc) || loc.isAccessible);
     }
     
     if (currentZoom === 'region' && focusedLocationId) {
       const region = findLocationInHierarchy(focusedLocationId);
-      return region?.children?.filter(loc => loc.tier === 'CITY') || [];
+      const cities = region?.children?.filter(loc => loc.tier === 'CITY') || [];
+      // Admin sees all cities, regular players see only known/accessible ones
+      if (isAdmin) {
+        return cities;
+      }
+      return cities.filter(loc => isLocationKnown(loc) || loc.isAccessible);
     }
     
     if (currentZoom === 'city' && focusedLocationId) {
       const city = findLocationInHierarchy(focusedLocationId);
-      return city?.children?.filter(loc => loc.tier === 'LOCATION') || [];
+      const locations = city?.children?.filter(loc => loc.tier === 'LOCATION') || [];
+      // Admin sees ALL settlements/locations, regular players see only known/accessible ones
+      if (isAdmin) {
+        console.log(`🔍 Admin Mode: Showing ${locations.length} settlements in city ${city?.name}`, locations.map(l => l.name));
+        return locations;
+      }
+      const visibleLocations = locations.filter(loc => isLocationKnown(loc) || loc.isAccessible);
+      console.log(`👤 Player Mode: Showing ${visibleLocations.length}/${locations.length} settlements in city ${city?.name}`);
+      return visibleLocations;
     }
     
     return [];
@@ -521,14 +545,21 @@ export const MapPage: React.FC = () => {
             const isAdmin = localStorage.getItem('currentUser') === 'Admin';
             if (isAdmin) {
               localStorage.removeItem('currentUser');
+              console.log('🔄 Switched to Player Mode');
             } else {
               localStorage.setItem('currentUser', 'Admin');
+              console.log('🔄 Switched to Admin Mode - All locations should now be visible');
             }
             loadCharacterState();
-            window.location.reload(); // Reload to refresh data
+            // Force re-render by resetting view state
+            setMapView({
+              currentZoom: 'world',
+              focusedLocationId: undefined,
+              selectedLocationId: undefined
+            });
           }}
         >
-          {localStorage.getItem('currentUser') === 'Admin' ? '👑 Admin Mode' : '🔓 Test as Admin'}
+          {localStorage.getItem('currentUser') === 'Admin' ? '👑 Admin Mode (All Visible)' : '🔓 Enable Admin Mode'}
         </button>
       </div>
       
@@ -584,13 +615,34 @@ export const MapPage: React.FC = () => {
         </div>
         
         {/* Available Destinations */}
+        {/* Debug Information */}
+        <div style={{
+          backgroundColor: '#374151',
+          borderRadius: '0.5rem',
+          padding: '1rem',
+          marginBottom: '1rem',
+          border: '1px solid #4b5563'
+        }}>
+          <h3 style={{fontSize: '1rem', fontWeight: '600', color: '#fbbf24', marginBottom: '0.5rem'}}>
+            🔍 Debug Info
+          </h3>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.5rem', fontSize: '0.875rem'}}>
+            <div>Mode: {localStorage.getItem('currentUser') === 'Admin' ? '👑 Admin' : '👤 Player'}</div>
+            <div>Current Zoom: {mapView.currentZoom}</div>
+            <div>Focused Location: {mapView.focusedLocationId || 'None'}</div>
+            <div>Available Locations: {visibleLocations.length}</div>
+            <div>Total Continents: {worldData.length}</div>
+            <div>World Data Loaded: {worldData.length > 0 ? '✅' : '❌'}</div>
+          </div>
+        </div>
+
         <div style={{ marginBottom: '2rem' }}>
           <h2 style={styles.sectionTitle}>Available Destinations</h2>
           
           {visibleLocations.length === 0 ? (
             <div style={styles.card}>
               <p style={styles.description}>
-                {loading ? 'Loading locations...' : 'No accessible locations found. You may need to complete quests or reach higher levels.'}
+                {loading ? 'Loading locations...' : `No accessible locations found in ${mapView.currentZoom} view. ${localStorage.getItem('currentUser') === 'Admin' ? 'This might indicate a data loading issue.' : 'You may need to complete quests or reach higher levels, or try Admin mode.'}`}
               </p>
             </div>
           ) : (

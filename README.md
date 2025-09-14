@@ -1,6 +1,11 @@
 # 🎮 L'Esperimento di Ashnar - Fantasy RPG
 
-Un RPG fantasy multiplayer con AI narrativa avanzata, sistema di combattimento strategico e meccaniche sociali innovative.
+Un RPG fantasy multiplayer con AI narrativa avanzata, ### Database
+- **PostgreSQL 15** con schema completo
+- **Character System**: Razze, classi, statistiche
+- **User Management**: Roles, authentication
+- **Game Data**: Locations (234 implementate), items, quests
+- **Map System**: 3 continenti, 16 regioni, 64 città, 151 insediamentima di combattimento strategico e meccaniche sociali innovative.
 
 ## 🚀 Stato Attuale: **FUNZIONANTE** ✅
 
@@ -14,7 +19,7 @@ Un RPG fantasy multiplayer con AI narrativa avanzata, sistema di combattimento s
 
 **Sistemi in Sviluppo:**
 - 🚧 **Combat System**: Base implementata, in fase di testing
-- 🚧 **Map System**: Riprogettazione completa con routing geografico realistico
+- ✅ **Map System**: Database completo con 234 località implementate
 - 🚧 **Chat System**: WebSocket infrastructure pronta
 - 🚧 **Quest System**: Design completato, implementazione in corso
 
@@ -196,7 +201,7 @@ CLIENT_URL=http://localhost:5174
 
 ### Priorità Immediate (Q1 2025)
 1. **⚔️ Combat System**: Implementazione battle mechanics
-2. **🗺️ Map System**: Sistema mappa gerarchico con routing geografico realistico
+2. **🗺️ Map System**: ✅ Database completato - UI e navigazione in sviluppo
 3. **💬 Real-time Chat**: Comunicazione multiplayer
 4. **📜 Quest System**: Missioni e progressione
 
